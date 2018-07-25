@@ -17,7 +17,7 @@ exports.createUser = function(firstName, lastName, email, password) {
 };
 
 exports.checkEmail = function(email) {
-    const q = "SELECT email FROM users WHERE email = $1;";
+    const q = "SELECT * FROM users WHERE email = $1;";
     const params = [email];
     return db.query(q, params).then(results => {
         return results.rows;
