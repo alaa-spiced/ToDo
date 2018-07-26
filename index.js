@@ -1,5 +1,10 @@
 const express = require('express');
 const app = express();
+const s3 = require("./s3");
+const config = require('./config');
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
 const csurf = require('csurf');
 const bcrypt = require('./db/bcrypt');
 const cookieSession = require("cookie-session");
@@ -40,6 +45,48 @@ app.use(function(req, res, next){
     next();
 });
 
+function checkLogin(req, res, next) {
+    !req.session.isLoggedIn
+        ? res.redirect('/welcome')
+        : next();
+}
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
+
+    if (req.file) {
+        var imageUrl = config.s3UrlStart + req.file.filename;
+
+        db.updateUserProfilePic(req.session.userId , imageUrl ).then(()=>{
+            res.json({
+                imageUrl : imageUrl,
+                success: true });
+        });
+
+    } else {
+        res.json({ success: false });
+    }
+
+});
+
+
 app.post('/registration', (req , res)=>{
     if (req.body.firstname == "" || req.body.lastname == "" || req.body.email == "" || req.body.password == "") {
         res.json({
@@ -52,6 +99,8 @@ app.post('/registration', (req , res)=>{
                 bcrypt.hashPassword(req.body.password).then((hashedPassword)=>{
                     db.createUser(req.body.firstname, req.body.lastname, req.body.email, hashedPassword).then((results)=>{
                         req.session.isLoggedIn = true;
+                        console.log(results);
+                        req.session.userId = results.id;
                         res.json({
                             success : true,
                             message : "User created successfully"
@@ -99,6 +148,7 @@ app.post('/login' , (req , res) => {
                 bcrypt.checkPassword(req.body.password,hashedPwd).then((checked)=>{
                     if (checked) {
                         req.session.isLoggedIn = true;
+                        req.session.userId = userInfo.id;
                         res.json({
                             success : true,
                             message : "User Logged in successfully"
@@ -130,40 +180,27 @@ app.post('/login' , (req , res) => {
     }
 });
 
-
-// app.get('/', (req , res)=> {
-//     if (req.session.isLoggedIn) {
-//         res.redirect('/logo');
-//     }else {
-//         res.redirect('/welcome');
-//     }
-//
-// });
-
-app.get("/welcome", function(req, res) {
-    if (req.session.isLoggedIn) {
-        res.redirect("/");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
+app.get('/welcome', (req , res) => {
+    req.session.isLoggedIn
+        ? res.redirect('/')
+        : res.sendFile(`${__dirname}/index.html`);
 });
-app.get("/", function(req, res) {
-    if (!req.session.isLoggedIn) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
+
+app.get('/user', checkLogin, (req , res) => {
+    db.getUserInfoById(req.session.userId).then((results)=>{
+        res.json({
+            ...results
+        });
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
 });
 
 
-app.get('*', function(req, res) {
-    if (!req.session.isLoggedIn) {
-        res.redirect('/welcome');
-    }else {
-        res.sendFile(__dirname + '/index.html');
-    }
 
-});
+app.get('*', checkLogin, (req, res) =>
+    res.sendFile(`${__dirname}/index.html`)
+);
 
 app.listen(8080, function() {
     console.log("I'm listening.");

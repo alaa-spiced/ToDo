@@ -1,10 +1,26 @@
-import React from "react";
+import React, {Component} from "react";
 
-function Logo() {
-    return (
-        <div>Welcome, You are logged In</div>
-    );
+
+class Logo extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+        
+    }
+    render() {
+        return (
+            <div>
+                <h1>Welcome, You are logged In</h1>
+                <button type="button" onClick={this.handleClick}>Log out</button>
+            </div>
+        );
+    }
+
 }
-
 
 export default Logo;

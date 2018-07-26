@@ -1,17 +1,12 @@
 import React, {Component} from "react";
 import axios from './axios';
+import App from './App';
 // import { Link } from 'react-router-dom';
 
 class Login extends Component { //inherits properties of Component
     constructor(props) {
         super(props);
-        // this.state = {loggedIn : null};
-        //     loggedIn : false,
-        //     firstname : "",
-        //     lastname : "",
-        //     email : "",
-        //     password : ""
-        // };
+        this.state = {isLoggedIn : null};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,36 +34,36 @@ class Login extends Component { //inherits properties of Component
     }
 
     render() {
-        // if (this.state.loggedIn) {
-        //     return (
-        //         null
-        //     );
-        // }else {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label> E-Mail:
-                        <input
-                            type="text"
-                            name="email"
-                            placeholder="E-Mail"
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <label> Password:
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <input type="submit" value="submit" />
-                </form>
-            </div>
-        );
+        if (this.state.isLoggedIn) {
+            return (
+                <App />
+            );
+        }else {
+            return (
+                <div>
+                    <form onSubmit={this.handleSubmit}>
+                        <label> E-Mail:
+                            <input
+                                type="text"
+                                name="email"
+                                placeholder="E-Mail"
+                                onChange={this.handleChange}
+                            />
+                        </label>
+                        <label> Password:
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                onChange={this.handleChange}
+                            />
+                        </label>
+                        <input type="submit" value="submit" />
+                    </form>
+                </div>
+            );
+        }
     }
-    // }
 
 }
 
