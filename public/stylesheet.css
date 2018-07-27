@@ -1,3 +1,13 @@
 body {
   background-color: tomato;
 }
+.profilepic-container {
+  width: 100px;
+  height: 100px;
+}
+
+.profilepic {
+  margin-left: 10px;
+  height: 90px;
+  width: 90px;
+}

@@ -41,3 +41,13 @@ exports.updateUserProfilePic = function(userId , imageUrl) {
         return results.rows[0];
     });
 };
+
+exports.updateUserBio = function(userId , bio) {
+    const q =
+    "UPDATE users SET bio = ($2) WHERE id = ($1) RETURNING *;";
+
+    const params = [userId , bio];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};

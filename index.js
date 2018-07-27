@@ -105,14 +105,6 @@ app.post('/registration', (req , res)=>{
                             success : true,
                             message : "User created successfully"
                         });
-                        // req.session.userId = results.id;
-                        // req.session.firstname = req.body.firstname;
-                        // req.session.lastname = req.body.lastname;
-                        // req.session.email = req.body.email;
-                        // req.session.hashedPassword = hashedPassword;
-                        // req.session.loggedIn = true;
-                        // req.session.signed = false;
-                        // res.redirect('/profile');
                     });
                 }).catch(err=>{
                     console.log(err);
@@ -153,21 +145,6 @@ app.post('/login' , (req , res) => {
                             success : true,
                             message : "User Logged in successfully"
                         });
-                        // req.session.userId = userInfo.id;
-                        // req.session.firstname = userInfo.firstname;
-                        // req.session.lastname = userInfo.lastname;
-                        // req.session.email = req.body.email;
-                        // req.session.hashedPassword = hashedPwd;
-                        // req.session.loggedIn = true;
-                        // db.getSignature(userInfo.id).then((sigResult)=>{
-                        //     if (sigResult.length != 0) {
-                        //         req.session.signed = true;
-                        //         res.redirect('/signed');
-                        //     }else {
-                        //         req.session.signed = false;
-                        //         res.redirect('/sign');
-                        //     }
-                        // });
                     }else {
                         res.json({
                             success : false,
@@ -196,6 +173,19 @@ app.get('/user', checkLogin, (req , res) => {
     });
 });
 
+app.post('/user-bio', checkLogin, (req , res)=>{
+    console.log(req.body);
+    // db.updateUserBio(req.session.userId, req.body.bio).then((results)=>{
+    //     res.json({
+    //         bio : results.bio,
+    //         success : true,
+    //         message : "User created successfully"
+    //     });
+    // }).catch(err=>{
+    //     console.log(err);
+    // });
+
+});
 
 
 app.get('*', checkLogin, (req, res) =>

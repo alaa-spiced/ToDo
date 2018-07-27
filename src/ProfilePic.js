@@ -1,19 +1,13 @@
 import React from 'react';
 
 function ProfilePic ({image, first, last, clickHandler}) {
-    return (<img src={image} onClick={clickHandler} />);
+    return (
+        <div className="profilepic-container">
+            <div > <img className="profilepic" src={image} onClick={clickHandler} /></div>
+            <p>{first}{" "}{last}</p>
+        </div>
+    );
 }
 
 
 export default ProfilePic;
-
-
-//
-//
-// function ProfilePic(props) {
-//     return `<img src={props.image}
-// alt=""
-// onClick={props.showUploader}
-// />
-// `;
-// }

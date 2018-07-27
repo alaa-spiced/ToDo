@@ -24,6 +24,7 @@ class Login extends Component { //inherits properties of Component
             if (results.data.success) {
                 this.setState({isloggedIn : true});
                 console.log(results.data.message);
+                location.replace('/');
 
             }else {
                 super.setState({isloggedIn : false});

@@ -25,6 +25,7 @@ class Registration extends Component { //inherits properties of Component
             if (results.data.success) {
                 console.log(results.data.success);
                 this.setState({isloggedIn : true});
+                location.replace('/');
 
             }else {
                 this.setState({isloggedIn : false});

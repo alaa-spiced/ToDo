@@ -10,12 +10,12 @@ class Logo extends Component {
 
     handleClick(e) {
         e.preventDefault();
-        
+
     }
     render() {
         return (
             <div>
-                <h1>Welcome, You are logged In</h1>
+                <h1>Welcome, {this.props.first}</h1>
                 <button type="button" onClick={this.handleClick}>Log out</button>
             </div>
         );
