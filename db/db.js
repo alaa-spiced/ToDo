@@ -42,7 +42,7 @@ exports.updateUserProfilePic = function(userId , imageUrl) {
     });
 };
 
-exports.updateUserBio = function(userId , bio) {
+exports.updateUserBio = function(userId, bio) {
     const q =
     "UPDATE users SET bio = ($2) WHERE id = ($1) RETURNING *;";
 

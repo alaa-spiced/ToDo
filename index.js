@@ -174,16 +174,17 @@ app.get('/user', checkLogin, (req , res) => {
 });
 
 app.post('/user-bio', checkLogin, (req , res)=>{
-    console.log(req.body);
-    // db.updateUserBio(req.session.userId, req.body.bio).then((results)=>{
-    //     res.json({
-    //         bio : results.bio,
-    //         success : true,
-    //         message : "User created successfully"
-    //     });
-    // }).catch(err=>{
-    //     console.log(err);
-    // });
+    console.log(req.body.bioText);
+    console.log(req.session.userId);
+    db.updateUserBio(req.session.userId, req.body.bioText).then((results)=>{
+        res.json({
+            bioText : results.bio,
+            success : true,
+            message : "User created successfully"
+        });
+    }).catch(err=>{
+        console.log(err);
+    });
 
 });
 
