@@ -51,3 +51,27 @@ exports.updateUserBio = function(userId, bio) {
         return results.rows[0];
     });
 };
+
+exports.getFriendshipStatusById = function(userId) {
+    const q = "SELECT * FROM friendships WHERE (receiver_id = $1);";
+    const params = [userId];
+    return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};
+
+exports.getFriendshipStatus = function(senderId, receiverId) {
+    const q = "SELECT * FROM friendships WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
+    const params = [senderId, receiverId];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.setFriendshipStatus = function(senderId, receiverId , status) {
+    const q = "UPDATE friendships SET status = $3 WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
+    const params = [senderId, receiverId, status];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};

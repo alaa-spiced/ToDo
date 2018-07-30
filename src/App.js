@@ -5,6 +5,7 @@ import axios from './axios';
 import Profile from './Profile';
 import Uploader from './Uploader';
 import ProfilePic from './ProfilePic';
+import OtherUserProfile from './OtherUserProfile';
 
 class App extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class App extends React.Component {
                 userId : results.data.id,
                 firstName : results.data.first_name,
                 lastName : results.data.last_name,
-                profilePic : results.data.image_url || './images/default.png',
+                profilePic : results.data.image_url || './images/default.jpg',
                 bio : results.data.bio
             });
         });
@@ -87,6 +88,7 @@ class App extends React.Component {
                                 setBio = {this.setBio}
                             />
                         )} />
+                        <Route path="/user/:id" component={OtherUserProfile} />
                     </div>
                 </BrowserRouter>
             </div>
@@ -96,3 +98,24 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+
+
+
+// componentDidMount(){
+//   axios.get('/user'+this.props.match.params.id + '.json').then(({data})=>{
+//     if(data.redirect){
+//       this.props.history.push('/');
+//     }else {
+//       this.setState(data)
+//     }
+//
+//   });
+// }
+//
+// axios.get('/user/:id.json').then(({data})=>{
+//   if(res.session.userId == req.params.id)
+//   res.json()
+//   this.setState(data);
+// });

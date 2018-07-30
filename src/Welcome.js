@@ -5,9 +5,14 @@ import Login from "./Login";
 
 function Welcome() {
     return (
-        <div id="welcome">
-            <h1>Welcome!</h1>
-            <img src="./images/logo.jpg" alt="Logo" />
+        <div id="welcome-page">
+            <div className="logo-image-container">
+                <img className="logo-image" src="./images/logo.png" alt="Logo image" />
+                <div className="peace-text">
+                    <h1>PEACE</h1>
+                </div>
+            </div>
+
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />
