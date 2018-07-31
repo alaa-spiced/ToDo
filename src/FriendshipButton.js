@@ -5,6 +5,7 @@ class FriendshipButton extends React.Component{
     constructor(props) {
         super(props);
         this.state = {};
+        this.friend = this.friend.bind(this);
     }
 
     componentDidMount(){
@@ -26,18 +27,32 @@ class FriendshipButton extends React.Component{
     }
 
     friend(){
-        if (FriendshipButton.state.status == 1) {
-            axios.post('/accept-request' , {senderId : FriendshipButton.state.senderId, status : 2}).then((results)=>{
+        if (this.state.status == 1) {
+            axios.post('/accept-request' , {senderId : this.state.senderId, status : 2}).then((results)=>{
                 console.log(results);
-                // this.props.setFriendshipStatus(2);
-                // this.setState({
-                //     buttonText : 'cancle friend request'
-                // });
+                if (results.data.success) {
+                    this.props.setFriendshipStatus(2);
+                    this.setState({
+                        status : 2,
+                        buttonText : 'cancle friend request'
+                    });
+                }else {
+                    console.log("Results is empty");
+                }
+
             });
-        }else if (FriendshipButton.state.status == 2) {
-            axios.post('/delete-friendship' , {senderId : FriendshipButton.state.senderId}).then((results)=>{
+        }else if (this.state.status == 2) {
+            axios.post('/delete-friendship' , {senderId : this.state.senderId}).then((results)=>{
                 console.log(results);
-                this.props.setFriendshipStatus(null);
+                if (results.data.success) {
+                    this.props.setFriendshipStatus(null);
+                    this.setState({
+                        status : null
+                    });
+                }else {
+                    console.log("delete Results is empty");
+                }
+
             });
         }
 

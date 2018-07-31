@@ -72,6 +72,14 @@ exports.setFriendshipStatus = function(senderId, receiverId , status) {
     const q = "UPDATE friendships SET status = $3 WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
     const params = [senderId, receiverId, status];
     return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};
+
+exports.deleteFriendship = function(senderId, receiverId) {
+    const q = "DELETE FROM friendships where ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
+    const params = [senderId, receiverId];
+    return db.query(q, params).then(results => {
         return results.rows[0];
     });
 };

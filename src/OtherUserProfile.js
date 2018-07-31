@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from './axios';
+import FriendshipButton from './FriendshipButton';
 
-class Profile extends Component {
+class OtherUserProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -19,10 +20,27 @@ class Profile extends Component {
                         firstName  : results.data.first_name,
                         lastName   : results.data.last_name,
                         bio        : results.data.bio,
-                        profilePic : results.data.image_url,
+                        profilePic : results.data.image_url || './images/default.jpg',
                         ctreatedAt : results.data.created_at
                     });
                 }
+            }).then(()=>{
+
+                axios.get('/user-friendship/:'+ this.state.userId+'.json').then((resp)=>{
+                    if (resp.data.results == 0) {
+                        this.setState({
+                            friendshipStatus : 0
+                        });
+                    }else {
+                        console.log(resp.data);
+                        this.setState({
+                            friendshipStatus : resp.data.status,
+                            senderId : resp.data.sender_id
+                        });
+                    }
+
+                });
+
             });
     }
 
@@ -32,9 +50,10 @@ class Profile extends Component {
                 <h1>{this.state.firstName}, {this.state.lastName} {" "} Profile</h1>
                 <img src={this.state.profilePic} alt=" Profile Pic" />
                 <p>{this.state.bio}</p>
+                {this.state.friendshipStatus && <FriendshipButton status={this.state.friendshipStatus} senderId={this.state.senderId} setFriendshipStatus={this.setFriendshipStatus} />}
             </div>
         );
     }
 }
 
-export default Profile;
+export default OtherUserProfile;

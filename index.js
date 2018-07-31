@@ -227,24 +227,55 @@ app.get('/user-friendship', (req , res) => {
     // });
 });
 
-app.post('/accept-request', (req , res) => {
-    console.log(req.body.senderId + " "+ req.body.status);
-    // db.setFriendshipStatus(req.body.id).then((results)=>{
-    //     if (results.length == 0) {
-    //         res.json({
-    //             results : 0
-    //         });
-    //     }else {
-    //         res.json({
-    //             ...results
-    //         });
-    //     }
-    //
-    // }).catch(()=>{
-    //     res.sendStatus(500);
-    // });
+app.get('/user-friendship/:id.json', (req , res)=> {
+    db.getFriendshipStatus(req.params.id, req.session.userId).then((results)=>{
+
+        res.json({
+            ...results
+        });
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
+
 });
 
+app.post('/accept-request', (req , res) => {
+    db.setFriendshipStatus(req.body.senderId,req.session.userId, req.body.status).then((results)=>{
+        if (results.length == 0) {
+            res.json({
+                success : false
+            });
+        }else {
+            res.json({
+                ...results,
+                success : true
+            });
+        }
+
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
+});
+
+
+app.post('/delete-friendship', (req , res) => {
+    console.log(req.body.senderId);
+    db.deleteFriendship(req.body.senderId, req.session.userId).then((results)=>{
+        if (results.length == 0) {
+            res.json({
+                success : false
+            });
+        }else {
+            res.json({
+                ...results,
+                success : true
+            });
+        }
+
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
+});
 
 
 app.get('/logout', checkLogin, (req, res) =>{
