@@ -61,15 +61,15 @@ exports.getFriendshipStatusById = function(userId) {
 };
 
 exports.getFriendshipStatus = function(senderId, receiverId) {
-    const q = "SELECT * FROM friendships WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
+    const q = "SELECT * FROM friendships WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1));";
     const params = [senderId, receiverId];
     return db.query(q, params).then(results => {
-        return results.rows[0];
+        return results.rows;
     });
 };
 
 exports.setFriendshipStatus = function(senderId, receiverId , status) {
-    const q = "UPDATE friendships SET status = $3 WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
+    const q = "UPDATE friendships SET status = $3 WHERE (sender_id = $1 AND receiver_id = $2) RETURNING *;";
     const params = [senderId, receiverId, status];
     return db.query(q, params).then(results => {
         return results.rows;
@@ -79,6 +79,14 @@ exports.setFriendshipStatus = function(senderId, receiverId , status) {
 exports.deleteFriendship = function(senderId, receiverId) {
     const q = "DELETE FROM friendships where ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
     const params = [senderId, receiverId];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.addFriend = function(senderId, receiverId , status) {
+    const q = "INSERT INTO friendships (sender_id,receiver_id,status) VALUES ($1, $2, $3) RETURNING *;";
+    const params = [senderId, receiverId, status];
     return db.query(q, params).then(results => {
         return results.rows[0];
     });

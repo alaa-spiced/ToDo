@@ -8,50 +8,71 @@ class FriendshipButton extends React.Component{
         this.friend = this.friend.bind(this);
     }
 
+
     componentDidMount(){
-        if (this.props.status == 1) {
+        if (this.props.status == 1 && this.props.loggedInUserId == this.props.receiverId) {
             console.log(this.props.status);
             this.setState({
-                senderId : this.props.senderId,
+                senderId : this.props.otherUserId,
+                receiverId : this.props.loggedInUserId,
                 status : this.props.status,
                 buttonText : 'Accept request'
             });
-        }else if (this.props.status == 2) {
+        }else if (this.props.status == 1 && this.props.loggedInUserId == this.props.senderId) {
             console.log(this.props.status);
             this.setState({
-                senderId : this.props.senderId,
+                senderId : this.props.loggedInUserId,
+                receiverId : this.props.otherUserId,
                 status : this.props.status,
-                buttonText : 'cancle request'
+                buttonText : 'Cancle request'
+            });
+        }else if (this.props.status == 2) {
+            this.setState({
+                senderId : this.props.loggedInUserId,
+                receiverId : this.props.otherUserId,
+                status : this.props.status,
+                buttonText : 'Delete Friendship'
+            });
+        }else if (this.props.status == 3) {
+            this.setState({
+                senderId : this.props.loggedInUserId,
+                receiverId : this.props.otherUserId,
+                status : this.props.status,
+                buttonText : 'Add Friend'
             });
         }
     }
 
     friend(){
         if (this.state.status == 1) {
-            axios.post('/accept-request' , {senderId : this.state.senderId, status : 2}).then((results)=>{
+            axios.post('/accept-request' , {senderId : this.state.senderId,receiverId : this.state.receiverId, status : 2}).then((results)=>{
                 console.log(results);
-                if (results.data.success) {
-                    this.props.setFriendshipStatus(2);
-                    this.setState({
-                        status : 2,
-                        buttonText : 'cancle friend request'
-                    });
-                }else {
-                    console.log("Results is empty");
-                }
+                this.props.setFriendshipStatus(2);
+                this.setState({
+                    status : 2,
+                    buttonText : 'Delete Friendship'
+                });
+
 
             });
         }else if (this.state.status == 2) {
-            axios.post('/delete-friendship' , {senderId : this.state.senderId}).then((results)=>{
-                console.log(results);
-                if (results.data.success) {
-                    this.props.setFriendshipStatus(null);
-                    this.setState({
-                        status : null
-                    });
-                }else {
-                    console.log("delete Results is empty");
-                }
+            axios.post('/delete-friendship' , {senderId : this.state.senderId, receiverId : this.state.receiverId}).then((results)=>{
+                this.props.setFriendshipStatus(3);
+                this.setState({
+                    status : 3,
+                    buttonText : 'Add Friend'
+                });
+
+
+            });
+        }else if (this.state.status == 3) {
+            axios.post('/add-friend' , {senderId : this.state.senderId, receiverId : this.state.receiverId, status:1}).then((results)=>{
+                this.props.setFriendshipStatus(1);
+                this.setState({
+                    status : 1,
+                    buttonText : 'Cancel Request'
+                });
+
 
             });
         }
