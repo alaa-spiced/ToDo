@@ -72,7 +72,7 @@ exports.setFriendshipStatus = function(senderId, receiverId , status) {
     const q = "UPDATE friendships SET status = $3 WHERE (sender_id = $1 AND receiver_id = $2) RETURNING *;";
     const params = [senderId, receiverId, status];
     return db.query(q, params).then(results => {
-        return results.rows;
+        return results.rows[0];
     });
 };
 

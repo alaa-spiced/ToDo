@@ -228,19 +228,21 @@ app.get('/user-friendship', (req , res) => {
 });
 
 app.get('/user-friendship/:id.json', (req , res)=> {
-    console.log(req.params.id);
+    console.log(req.params.id, req.session.userId);
     db.getFriendshipStatus(req.params.id, req.session.userId).then((results)=>{
         if (results.length == 0) {
+            results = {id : null,
+                loggedInUserId: req.session.userId};
             res.json({
-                success : false, //no results
-                loggedInUser : req.session.userId
+                ...results
             });
         }else {
+            results = results[0];
+            results.loggedInUserId = req.session.userId;
             res.json({
-                success : true,
-                loggedInUser : req.session.userId,
-                results : results
+                ...results
             });
+
         }
 
     }).catch(()=>{
@@ -250,11 +252,10 @@ app.get('/user-friendship/:id.json', (req , res)=> {
 });
 
 app.post('/accept-request', (req , res) => {
-    db.setFriendshipStatus(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
-
+    db.addFriend(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
+        console.log(results);
         res.json({
-            ...results[0],
-            success : true
+            ...results
         });
 
     }).catch(()=>{
@@ -265,9 +266,20 @@ app.post('/accept-request', (req , res) => {
 
 app.post('/add-friend', (req , res) => {
     db.addFriend(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
+        console.log(results);
         res.json({
-            ...results,
-            success : true
+            ...results
+        });
+
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
+});
+
+app.post('/update-friend', (req , res) => {
+    db.setFriendshipStatus(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
+        res.json({
+            ...results
         });
 
     }).catch(()=>{
@@ -276,11 +288,9 @@ app.post('/add-friend', (req , res) => {
 });
 
 app.post('/delete-friendship', (req , res) => {
-    console.log(req.body.senderId);
     db.deleteFriendship(req.body.senderId, req.body.receiverId).then((results)=>{
         res.json({
-            ...results,
-            success : true
+            ...results
         });
 
     }).catch(()=>{
