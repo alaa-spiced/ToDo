@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Uploader from './Uploader';
 import ProfilePic from './ProfilePic';
 import OtherUserProfile from './OtherUserProfile';
+import Friends from './Friends';
 
 class App extends React.Component {
     constructor(props) {
@@ -72,6 +73,7 @@ class App extends React.Component {
                 <Logo first={this.state.firstName} last={this.state.lastName}/>
                 <ProfilePic image={this.state.profilePic} first={this.state.firstName} last={this.state.lastName} clickHandler={this.showUploader} />;
                 {this.state.uploaderIsVisible && <Uploader setImage={this.setImage} />}
+
                 <BrowserRouter>
                     <div>
                         <Route path="/profile" render={() => (
@@ -82,6 +84,7 @@ class App extends React.Component {
                                 profilePic={ this.state.profilePic }
                                 showBio={ this.state.showBio }
                                 uploaderIsVisible = {this.state.uploaderIsVisible}
+                                userBio={this.state.bio}
                                 toggleShowBio={ this.toggleShowBio }
                                 showUploader ={this.showUploader}
                                 setImage = {this.setImage}
@@ -89,6 +92,7 @@ class App extends React.Component {
                             />
                         )} />
                         <Route path="/user/:id" component={OtherUserProfile} />
+                        <Route path="/friends" component={Friends} />
                     </div>
                 </BrowserRouter>
             </div>

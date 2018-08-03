@@ -298,6 +298,18 @@ app.post('/delete-friendship', (req , res) => {
     });
 });
 
+app.get('/friends-wannabes', (req , res) => {
+    db.getFriendsAndWannabes(req.session.userId).then((userFriendsAndWannabes)=>{
+        console.log(userFriendsAndWannabes);
+        res.json({
+            userFriendsAndWannabes
+        });
+
+    }).catch(()=>{
+        res.sendStatus(500);
+    });
+});
+
 
 app.get('/logout', checkLogin, (req, res) =>{
     req.session.isLoggedIn = false;

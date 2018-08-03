@@ -91,3 +91,19 @@ exports.addFriend = function(senderId, receiverId , status) {
         return results.rows[0];
     });
 };
+
+
+exports.getFriendsAndWannabes = function(userId) {
+    const q = `
+           SELECT users.id, first_name, last_name, image_url, status
+           FROM friendships
+           JOIN users
+           ON (status = 1 AND receiver_id = $1 AND sender_id = users.id)
+           OR (status = 2 AND receiver_id = $1 AND sender_id = users.id)
+           OR (status = 2 AND sender_id = $1 AND receiver_id = users.id);
+       `;
+    const params = [userId];
+    return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};
