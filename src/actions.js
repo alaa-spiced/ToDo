@@ -1,44 +1,32 @@
 import axios from './axios';
 
-
 export async function receiveFriendsWannabes() {
-    const { data } = await axios.get('/friends-wannabes');
+    const results  = await axios.get('/friends-wannabes');
     return {
         type                    :   'RECEIVE_USER_FRIENDS_AND_WANNABES',
-        userFriendsAndWannabes  :   data.userFriendsAndWannabes
+        userFriendsAndWannabes  :   results.data.userFriendsAndWannabes
     };
 }
 
-// export async function acceptFriendRequest(userId) {
-//     const x = await axios.post(`/hot/${userId}`);
+
+// export async function acceptFriendRequest(senderId) {
+//     const results = await axios.post('/accept-friend-request',{senderId : senderId, status : 2});
 //     return {
-//         type: 'MAKE_HOT',
-//         userId
-//     };
-// }
-
-
-
-// export async function receiveUsers() {
-//     const { data } = await axios.get('/users');
-//     return {
-//         type: 'RECEIVE_USERS',
-//         users: data.users
+//         type: 'ACCEPT_FRIEND',
+//         senderId : results.data.sender_id,
+//         receiverId : results.data.receiver_id,
+//         status : results.data.status,
+//         buttonText : 'End Friendship'
 //     };
 // }
 //
-// export async function makeHot(id) {
-//     const x = await axios.post(`/hot/${id}`);
+// export async function endFriendship(senderId) {
+//     const results = await axios.post('/end-friendship',{senderId : senderId});
 //     return {
-//         type: 'MAKE_HOT',
-//         id
-//     };
-// }
-//
-// export async function makeNot(id) {
-//     const x = await axios.post(`/not/${id}`);
-//     return {
-//         type: 'MAKE_NOT',
-//         id
+//         type: 'ACCEPT_FRIEND',
+//         senderId : results.data.sender_id,
+//         receiverId : results.data.receiver_id,
+//         status : results.data.status,
+//         buttonText : 'End Friendship'
 //     };
 // }

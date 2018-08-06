@@ -51,7 +51,6 @@ class App extends React.Component {
 
     componentDidMount(){
         axios.get('/user').then((results)=>{
-            console.log(results);
             this.setState({
                 userId : results.data.id,
                 firstName : results.data.first_name,
@@ -102,24 +101,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
-
-
-// componentDidMount(){
-//   axios.get('/user'+this.props.match.params.id + '.json').then(({data})=>{
-//     if(data.redirect){
-//       this.props.history.push('/');
-//     }else {
-//       this.setState(data)
-//     }
-//
-//   });
-// }
-//
-// axios.get('/user/:id.json').then(({data})=>{
-//   if(res.session.userId == req.params.id)
-//   res.json()
-//   this.setState(data);
-// });

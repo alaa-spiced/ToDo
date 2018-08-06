@@ -1,52 +1,67 @@
 import React from 'react';
 import { connect } from 'react-redux';
+//import { Link } from 'react-router-dom';
 import { receiveFriendsWannabes } from './actions';
+import FriendshipButton from './FriendshipButton';
 
 class Friends extends React.Component {
     componentDidMount() {
         this.props.dispatch(receiveFriendsWannabes());
     }
     render() {
-        const { userFriendsAndWannabes } = this.props;
-        console.log(userFriendsAndWannabes);
-        if (!userFriendsAndWannabes) {
+        var {userWannabes}  = this.props;
+        var {userFriends} = this.props;
+        if (!userWannabes && !userFriends) {
             return null;
         }
-        // const handleHotClick = e => {
-        //     this.props.dispatch(
-        //         makeHot(userFriendsAndWannabes[0].id)
-        //     );
-        // };
-        //
-        // const handleNotClick = e => {
-        //     this.props.dispatch(
-        //         makeNot(users[0].id)
-        //     );
-        // };
 
-        return (
-            <div id="friends-wannabes">
-                <div className="user">
-                    <img src={userFriendsAndWannabes[1].image_url} />
-                    <h3>{userFriendsAndWannabes[1].first_name} {userFriendsAndWannabes[0].last_name}</h3>
-                    <h3>{userFriendsAndWannabes[1].bio}</h3>
-                    {/*<div className="buttons">
-                        <button onClick={handleHotClick}>Hot</button>
-                        <button onClick={handleNotClick}>Not</button>
-                    </div>*/}
-                </div>
-                {/*<nav>
-                    <Link to="/hot">See who&apos;s hot</Link>
-                    <Link to="/not">See who&apos;s not</Link>
-                </nav>*/}
+        var wannabes = (
+            <div className="users">
+                {userWannabes.map(user => (
+                    <div className="user" key={user.id}>
+                        <img className="profilepic" src={user.image_url} />
+                        <h3>{user.first_name} {user.last_name}</h3>
+                        <FriendshipButton otherUserId={user.id} />
+                    </div>
+                ))}
             </div>
         );
+
+        var friends = (
+            <div className="users">
+                {userFriends.map(user => (
+                    <div className="user" key={user.id}>
+                        <img className="profilepic" src={user.image_url} />
+                        <h3>{user.first_name} {user.last_name}</h3>
+                        <FriendshipButton otherUserId={user.id} />
+                    </div>
+                ))}
+            </div>
+        );
+        return (
+            <div className="friends-wannabes">
+                <div className="wannabes">
+                    {!userWannabes.length && <div>You have no friend requests</div>}
+                    {userWannabes.length && <h3>Those people wanna be your friends</h3>}
+                    {!!userWannabes.length && wannabes}
+                </div>
+
+                <div className="friends">
+                    {!userFriends.length && <div>You have no friends</div>}
+                    {userFriends.length && <h3>Those people are your friends</h3>}
+                    {!!userFriends.length && friends}
+                </div>
+            </div>
+        );
+
     }
 }
 
 const mapStateToProps = function(state) {
     return {
-        users: state.users && state.users.filter(user => user.hot == null)
+        userWannabes: state.userFriendsAndWannabes && state.userFriendsAndWannabes.filter(user => user.status == 1),
+        userFriends: state.userFriendsAndWannabes && state.userFriendsAndWannabes.filter(user => user.status == 2)
+
     };
 };
 
