@@ -9,16 +9,25 @@ export async function receiveFriendsWannabes() {
 }
 
 
-// export async function acceptFriendRequest(senderId) {
-//     const results = await axios.post('/accept-friend-request',{senderId : senderId, status : 2});
-//     return {
-//         type: 'ACCEPT_FRIEND',
-//         senderId : results.data.sender_id,
-//         receiverId : results.data.receiver_id,
-//         status : results.data.status,
-//         buttonText : 'End Friendship'
-//     };
-// }
+export async function acceptFriendRequest(senderId) {
+    const results = await axios.post('/update-friend',{senderId : senderId, status : 2});
+    console.log("hellooooooo", results);
+    return {
+        type: 'ACCEPT_FRIEND',
+        newFriend : results.data
+
+    };
+}
+
+export async function endFriendship(senderId) {
+    const results = await axios.post('/delete-friendship',{senderId : senderId});
+    console.log("hellooooooo delete", results);
+    return {
+        type: 'END_FRIENDSHIP',
+        deletedFriend : results.data
+
+    };
+}
 //
 // export async function endFriendship(senderId) {
 //     const results = await axios.post('/end-friendship',{senderId : senderId});

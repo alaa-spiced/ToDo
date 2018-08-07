@@ -1,16 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 //import { Link } from 'react-router-dom';
-import { receiveFriendsWannabes } from './actions';
-import FriendshipButton from './FriendshipButton';
+import { receiveFriendsWannabes , acceptFriendRequest , endFriendship} from './actions';
+//import FriendshipButton from './FriendshipButton';
 
 class Friends extends React.Component {
     componentDidMount() {
         this.props.dispatch(receiveFriendsWannabes());
     }
+
+    handleAcceptClick(userId){
+        this.props.dispatch(
+            acceptFriendRequest(userId)
+        );
+    }
+
+    handleDeleteClick(userId){
+        this.props.dispatch(
+            endFriendship(userId)
+        );
+    }
+
     render() {
-        var {userWannabes}  = this.props;
-        var {userFriends} = this.props;
+        var {userWannabes , userFriends}  = this.props;
         if (!userWannabes && !userFriends) {
             return null;
         }
@@ -21,7 +33,10 @@ class Friends extends React.Component {
                     <div className="user" key={user.id}>
                         <img className="profilepic" src={user.image_url} />
                         <h3>{user.first_name} {user.last_name}</h3>
-                        <FriendshipButton otherUserId={user.id} />
+                        <div className="button">
+                            <button onClick={()=>this.handleAcceptClick(user.id)}>Accept Friend Request</button>
+                        </div>
+
                     </div>
                 ))}
             </div>
@@ -33,7 +48,9 @@ class Friends extends React.Component {
                     <div className="user" key={user.id}>
                         <img className="profilepic" src={user.image_url} />
                         <h3>{user.first_name} {user.last_name}</h3>
-                        <FriendshipButton otherUserId={user.id} />
+                        <div className="button">
+                            <button onClick={()=>this.handleDeleteClick(user.id)}>End Friendship</button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -60,8 +77,9 @@ class Friends extends React.Component {
 const mapStateToProps = function(state) {
     return {
         userWannabes: state.userFriendsAndWannabes && state.userFriendsAndWannabes.filter(user => user.status == 1),
-        userFriends: state.userFriendsAndWannabes && state.userFriendsAndWannabes.filter(user => user.status == 2)
-
+        userFriends: state.userFriendsAndWannabes && state.userFriendsAndWannabes.filter(user => user.status == 2),
+        newFriend : state.newFriend,
+        deletedFriend : state.deletedFriend
     };
 };
 

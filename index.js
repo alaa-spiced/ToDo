@@ -263,6 +263,10 @@ app.post('/accept-request', (req , res) => {
     });
 });
 
+// app.post('/accept-friend-request', (req , res) =>{
+//     console.log(req.body);
+// });
+
 
 app.post('/add-friend', (req , res) => {
     db.addFriend(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
@@ -277,7 +281,7 @@ app.post('/add-friend', (req , res) => {
 });
 
 app.post('/update-friend', (req , res) => {
-    db.setFriendshipStatus(req.body.senderId, req.body.receiverId, req.body.status).then((results)=>{
+    db.setFriendshipStatus(req.body.senderId, req.body.receiverId || req.session.userId, req.body.status).then((results)=>{
         res.json({
             ...results
         });
@@ -288,7 +292,7 @@ app.post('/update-friend', (req , res) => {
 });
 
 app.post('/delete-friendship', (req , res) => {
-    db.deleteFriendship(req.body.senderId, req.body.receiverId).then((results)=>{
+    db.deleteFriendship(req.body.senderId, req.body.receiverId || req.session.userId).then((results)=>{
         res.json({
             ...results
         });

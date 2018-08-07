@@ -5,21 +5,37 @@ export default function(state = {}, action) {
             userFriendsAndWannabes: action.userFriendsAndWannabes
         };
     }
-    if (action.type == 'MAKE_HOT' || action.type == 'MAKE_NOT') {
+    if (action.type == 'ACCEPT_FRIEND') {
         state = {
             ...state,
-            users: state.users.map(
-                user => {
-                    if (user.id == action.id) {
-                        return {
-                            ...user,
-                            hot: action.type == 'MAKE_HOT'
-                        };
-                    } else {
-                        return user;
-                    }
+            userFriendsAndWannabes: state.userFriendsAndWannabes.map(user => {
+                if (user.id == action.newFriend.sender_id) {
+                    return {
+                        ...user,
+                        status : 2
+                    };
+                }else {
+                    return user;
                 }
-            )
+            })
+
+        };
+    }
+
+    if (action.type == 'END_FRIENDSHIP') {
+        state = {
+            ...state,
+            userFriendsAndWannabes: state.userFriendsAndWannabes.map(user => {
+                if (user.id == action.deletedFriend.sender_id || user.id == action.deletedFriend.receiver_id) {
+                    return {
+                        ...user,
+                        status : 0
+                    };
+                }else {
+                    return user;
+                }
+            })
+
         };
     }
 
