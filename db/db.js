@@ -107,3 +107,12 @@ exports.getFriendsAndWannabes = function(userId) {
         return results.rows;
     });
 };
+
+exports.getUsersInfosByIds = function(arrayOfIds) {
+    const query = `SELECT * FROM users WHERE id = ANY($1)`;
+    return db.query(query, [arrayOfIds])
+        .then(results => {
+            console.log(results.rows);
+            return results.rows;
+        });
+};

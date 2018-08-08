@@ -19,7 +19,7 @@ class Logo extends Component {
     render() {
         return (
             <div id="logo-component">
-                <img src="./images/logo.png" alt="Logo image" />
+                <img className="logo-image" src="./images/logo.png" alt="Logo image" />
                 <h1>Welcome, {this.props.first}</h1>
                 <button type="button" onClick={this.handleClick}>Log out</button>
             </div>

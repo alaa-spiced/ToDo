@@ -37,7 +37,7 @@ class FriendshipButton extends React.Component{
             }else if (this.state.friendshipStatus == 1 && this.state.loggedInUserId == this.state.senderId) {
                 console.log(this.state.friendshipStatus);
                 this.setState({
-                    buttonText : 'Cancle Friend Request'
+                    buttonText : 'Cancel Friend Request'
                 });
             }else if (this.state.friendshipStatus == 1 && this.state.loggedInUserId == this.state.receiverId) {
                 this.setState({

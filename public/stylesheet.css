@@ -43,3 +43,25 @@ height: 60%;
   height: 90px;
   width: 90px;
 }
+
+.profile-pic-chat {
+  height: 60px;
+  width: 60px;
+}
+
+.online-user-pic {
+  height: 60px;
+  width: 60px;
+}
+.logo-image {
+  height: 90px;
+  width: 90px;
+}
+
+#chat {
+  height : 800px;
+  width : 800px;
+  border: 2px solid black;
+  border-radius: 20px;
+  overflow-y: scroll;
+}

@@ -28,14 +28,40 @@ export async function endFriendship(senderId) {
 
     };
 }
-//
-// export async function endFriendship(senderId) {
-//     const results = await axios.post('/end-friendship',{senderId : senderId});
-//     return {
-//         type: 'ACCEPT_FRIEND',
-//         senderId : results.data.sender_id,
-//         receiverId : results.data.receiver_id,
-//         status : results.data.status,
-//         buttonText : 'End Friendship'
-//     };
-// }
+
+
+export function pushOnlineUsersToRedux(onlineUsers) {
+    return {
+        type: 'PUSH_ONLINE_USERS_TO_REDUX',
+        onlineUsers
+
+    };
+}
+export function userJoined (user) {
+    console.log('userjoined' , user);
+    return {
+        type:'USER_JOINED',
+        user
+    };
+}
+
+export function userLeft (user) {
+    console.log('userLeft' , user);
+    return {
+        type:'USER_LEFT',
+        user
+    };
+}
+export function pushChatMessagesToRedux(chatMessages) {
+    return {
+        type: 'PUSH_CHAT_MESSAGES_TO_REDUX',
+        chatMessages
+    };
+}
+export function newMessageAction (chatMessage) {
+    console.log('newMessage' , chatMessage);
+    return {
+        type:'NEW_MESSAGE',
+        chatMessage
+    };
+}

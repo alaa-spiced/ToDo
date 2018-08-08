@@ -7,6 +7,8 @@ import Uploader from './Uploader';
 import ProfilePic from './ProfilePic';
 import OtherUserProfile from './OtherUserProfile';
 import Friends from './Friends';
+import Chat from './chat';
+import OnlineUsers from './OnlineUsers';
 
 class App extends React.Component {
     constructor(props) {
@@ -92,6 +94,8 @@ class App extends React.Component {
                         )} />
                         <Route path="/user/:id" component={OtherUserProfile} />
                         <Route path="/friends" component={Friends} />
+                        <Route path='/online' component= {OnlineUsers} />
+                        <Route path="/chat" component={Chat} />
                     </div>
                 </BrowserRouter>
             </div>
