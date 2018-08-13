@@ -42,41 +42,42 @@ class Registration extends Component { //inherits properties of Component
             );
         }
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label> First Name:
-                        <input
-                            type="text"
-                            name="firstname"
-                            placeholder="First Name"
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <label> Last Name:
-                        <input
-                            type="text"
-                            name="lastname"
-                            placeholder="Last Name"
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <label> E-Mail:
-                        <input
-                            type="text"
-                            name="email"
-                            placeholder="E-Mail"
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <label> Password:
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={this.handleChange}
-                        />
-                    </label>
+            <div className="registration-div">
+                <form className="registration-form" onSubmit={this.handleSubmit}>
+                    <label> First Name: </label>
+                    <input
+                        type="text"
+                        name="firstname"
+                        placeholder="First Name"
+                        onChange={this.handleChange}
+                    />
+
+                    <label> Last Name: </label>
+                    <input
+                        type="text"
+                        name="lastname"
+                        placeholder="Last Name"
+                        onChange={this.handleChange}
+                    />
+
+                    <label> E-Mail: </label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="E-Mail"
+                        onChange={this.handleChange}
+                    />
+
+                    <label> Password:  </label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={this.handleChange}
+                    />
+
                     <input type="submit" value="submit" />
+
                 </form>
                 <Link to="/login">Click here to Log in!</Link>
             </div>

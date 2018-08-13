@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from './axios';
 import FriendshipButton from './FriendshipButton';
+import OtherUserFriends from './OtherUserFriends';
 
 class OtherUserProfile extends Component {
 
@@ -41,7 +42,8 @@ class OtherUserProfile extends Component {
                 <h1>{this.state.otherUserFirstName}, {this.state.otherUserLastName} {" "} Profile</h1>
                 <img src={this.state.otherUserProfilePic} alt=" Profile Pic" />
                 <p>{this.state.otherUserBio}</p>
-                <FriendshipButton otherUserId={this.props.match.params.id} />
+                <FriendshipButton otherUserId={this.props.match.params.id} /><br></br>
+                <OtherUserFriends ouId={this.props.match.params.id} />
             </div>
         );
     }

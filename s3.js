@@ -1,5 +1,9 @@
 const knox = require("knox");
 const fs = require("fs");
+const AWS = require('aws-sdk');
+
+let secrets;
+var s3 = new AWS.S3();
 
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
@@ -12,6 +16,12 @@ const client = knox.createClient({
     secret: secrets.AWS_SECRET,
     bucket: "spicedling"
 });
+
+exports.deleteUserImagesS3 = function (images) {
+    client.deleteMultiple(images, (err , res)=>{
+
+    });
+};
 
 exports.upload = function(req, res, next) {
     if (!req.file) {

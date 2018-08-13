@@ -30,16 +30,16 @@ class Profile extends Component {
         const { firstName, lastName, profilePic, uploaderIsVisible, userBio, showBio, toggleShowBio, showUploader, setImage, setBio } = this.props;
         return (
             <div id="profile">
-                <h1>Profile</h1>
-                <ProfilePic image={profilePic} first={firstName} last={lastName} clickHandler={showUploader} />;
-                {uploaderIsVisible && <Uploader setImage={setImage} />}
+                <ProfilePic className="profile-profilepic" image={profilePic} first={firstName} last={lastName} clickHandler={showUploader} />
+                {uploaderIsVisible && <Uploader className="uploader" setImage={setImage} />}
+                <div className="bio-div">{userBio && <h5 className="user-bio">{userBio}</h5>}
 
-                <p>{ firstName } { lastName }</p>
-                {userBio && <p>{userBio}</p>}
-                { showBio
-                    ? (<form onSubmit={()=>setBio(this.state.bioText)}><textarea name="bioText" onChange={this.handleChange}></textarea> <input type="submit" value="submit" /></form>)
-                    : <p onClick={ toggleShowBio } >Click to Edit a bio</p>
-                }
+                    { showBio
+                        ? (<form onSubmit={()=>setBio(this.state.bioText)}><textarea name="bioText" onChange={this.handleChange}></textarea> <input type="submit" value="submit" /></form>)
+                        : <p onClick={ toggleShowBio } >Click to Edit a bio</p>
+                    }
+                </div>
+
 
             </div>
         );

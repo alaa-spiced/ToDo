@@ -116,3 +116,58 @@ exports.getUsersInfosByIds = function(arrayOfIds) {
             return results.rows;
         });
 };
+
+exports.deleteUserFriendships = function(userId) {
+    const query = `DELETE FROM friendships WHERE (sender_id =($1) OR receiver_id = ($1))`;
+    return db.query(query, [userId])
+        .then(results => {
+            return results.rows[0];
+        });
+};
+
+exports.getUserImages = function(userId) {
+    const query = `SELECT image_urls FROM images WHERE user_id =($1);`;
+    return db.query(query, [userId])
+        .then(results => {
+            return results.rows;
+        });
+};
+
+exports.deleteUserImagesDb = function(userId) {
+    const query = `DELETE FROM images WHERE user_id =($1);`;
+    return db.query(query, [userId])
+        .then(results => {
+            return results.rows;
+        });
+};
+
+exports.addImage = function(userId, imageName) {
+    const q = "INSERT INTO images (user_id,image_urls) VALUES ($1, $2);";
+    const params = [userId, imageName];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.deleteUser = function(userId) {
+    const query = `DELETE FROM users WHERE id =($1);`;
+    return db.query(query, [userId])
+        .then(results => {
+            return results.rows;
+        });
+};
+
+
+exports.getOtherUserFriends = function(userId) {
+    const q = `
+           SELECT users.id, first_name, last_name, image_url, status
+           FROM friendships
+           JOIN users
+           ON (status = 2 AND receiver_id = $1 AND sender_id = users.id)
+           OR (status = 2 AND sender_id = $1 AND receiver_id = users.id);
+       `;
+    const params = [userId];
+    return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};

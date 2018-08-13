@@ -1,47 +1,358 @@
 * {
+  /* border: 1px solid blue; */
+  margin: 0;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
 width: 100%;
 height: 100%;
   }
+label {
+  background-color: lightblue;
+  color: white;
+}
+
+input {
+  margin-bottom: 15px;
+}
 
 #welcome-page {
-  /* background-image: url('./images/peace.jpg'); */
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
 .logo-image-container {
-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+background-color: black;
+/* border: 1px solid blue; */
+width: 50%;
 height: 100%;
 }
 
-.logo-image {
-width: 10%;
-height: 60%;
+.welcome-trasparent {
+  position: absolute;
+  z-index: 100;
+  width: 50%;
+  height: 100%;
+  background-color: rgb(255,255,255,0.3);
+}
+
+.logo-image-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid blue; */
+width: 50%;
+height: 50%;
+}
+
+.logo-image-welcome {
+  width: 60%;
+  height: 60%;
 }
 
 .peace-text {
+color: white;
+}
 
+.welcome-page-routs {
+  /* border: 1px solid red; */
+width: 50%;
+}
+
+.registration-div, .login-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  width: 100%;
+  height: 100%;
+}
+a {
+  text-decoration: none;
+  color: tomato;
+}
+
+.registration-form, .login-form{
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid blue; */
+width: 70%;
+height: 35%;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  /* border: 1px solid red; */
+}
+
+.header {
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightblue;
+
+}
+
+#logo-component {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* border: 1px solid blue; */
+  width: 50vw;
+
+}
+.nav-links-div {
+  /* border: 1px solid black; */
+  margin-left: 150px;
+  margin-top: 30px;
+  height: 100%;
+}
+
+
+.nav-links {
+font-size: 20px;
+margin-right: 15px;
+color: white;
+background-color: lightblue;
+
+}
+
+.logout-user {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.profilepic-container {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 100%;
+  background-color: lightgrey;
+
+}
+
+.delete-account {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 100%;
+}
+
+h5 {
+  margin-top: 20px;
+  font-size: 40px;
+}
+
+.bio-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 75vw;
+  background-image: url('./images/peace_1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: center;
+    background-color: lightblue;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    font-weight: 600;
+}
+
+.uploader {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: darkgrey;
+}
+
+.user-name {
+  margin-left: 20px;
+  font-size: 24px;
+  color: white;
+}
+
+.profilepic {
+  border: 1px solid white;
+  border-radius: 50px;
+  height: 90px;
+  width: 90px;
+}
+
+#profile {
+  display: flex;
+  /* border: 2px solid black; */
+  height: 85vh;
+  width: 100vw;
+}
+.profile-profilepic {
+  border-radius: 10px;
+  width: 300px;
+  height: 300px;
+}
+
+.main-users {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  margin: 10px;
+
+}
+
+.main-online-users {
+  display: grid;
+  grid-template-columns: 200px auto;
+  margin-left: 10px;
+  height: 625px;
+}
+
+.main-online-users h1 {
+   font-size: 20px;
+   text-align: center;
+}
+
+.left {
+  border-right: 1px solid black;
+}
+
+#other-user-profile {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.online-user-pic {
+  display: flex;
+   width: 20%;
+   height: 20%;
+   border: 1px solid black;
+   margin-right: 1rem;
+}
+
+.main-chat-div {
+   boder: 1px black solid;
+}
+
+.main-chat-area {
+   display: grid;
+   height: 430px;
+   width: 95%;
+   margin: 0 auto;
+   grid-template-rows: auto 1fr;
+   overflow-y: scroll;
+}
+
+.submit-area {
+   display: grid;
+   grid-template-columns: 9fr 1fr;
+   grid-column-gap: 5px;
+}
+
+#chatTextArea {
+   font-size: 1rem;
+   border-radius: 5px;
+   margin-right: 1%;
+
+
+}
+
+#other-user-profile img {
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.userName img{
+  width: 5%;
+  height: 5%;
+}
+
+.userName p{
+  color: white;
+}
+
+#submit-message {
+   /* width: 5%; */
+   height: 50px;
+   margin: 0;
+   border-radius: 5px;
+   background-color: lightgrey;
+}
+
+.userName {
+   font-size: 1rem;
+   padding: 0.5rem;
+   margin-bottom: 0.3rem;
+}
+
+
+.userName:nth-child(odd) {
+   background-color: #1F6F80;
+}
+
+
+.userName:nth-child(even) {
+   background-color: black;
+   text-align: right;
+}
+
+.button-friends {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.user {
+  border: 2px solid black;
+  padding: 10px;
+  margin: 10px;
+}
+
+.friends-profilepic {
+  border-radius: 10px;
+  width: 250px;
+  height: 250px;
 }
 
 .friendship-button {
   width: 150px;
   height: 30px;
-}
-
-.profilepic-container {
-  width: 100px;
-  height: 100px;
-}
-
-.profilepic {
-  margin-left: 10px;
-  height: 90px;
-  width: 90px;
 }
 
 .profile-pic-chat {

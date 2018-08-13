@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter , Route} from 'react-router-dom';
+import { BrowserRouter , Route } from 'react-router-dom';
 import Logo from './Logo';
 import axios from './axios';
 import Profile from './Profile';
@@ -21,12 +21,31 @@ class App extends React.Component {
         this.setImage = this.setImage.bind(this);
         this.toggleShowBio = this.toggleShowBio.bind(this);
         this.setBio = this.setBio.bind(this);
+        this.deleteAccount = this.deleteAccount.bind(this);
     }
 
     showUploader() {
         this.setState({
             uploaderIsVisible : !this.state.uploaderIsVisible
         });
+    }
+
+    deleteAccount() {
+        var confirm_1 = confirm('Are you sure, you wanna delete your account?');
+        if (confirm_1 == true) {
+            var confirm_2 = confirm("We are so sad to know that, please don't leave us :(");
+            if (confirm_2 == true) {
+                var confirm_3 = confirm("Please take a minute and think again :(");
+                if (confirm_3 == true) {
+                    axios.get('/delete-account').then((results)=>{
+                        if(results.data.success){
+                            location.replace('/');
+                        }
+                    });
+                }
+            }
+        }
+
     }
 
     setImage(url){
@@ -40,6 +59,7 @@ class App extends React.Component {
         this.setState({
             showBio: !this.state.showBio
         });
+
     }
 
     setBio(bioText){
@@ -71,12 +91,16 @@ class App extends React.Component {
         }
         return (
             <div id="app">
-                <Logo first={this.state.firstName} last={this.state.lastName}/>
-                <ProfilePic image={this.state.profilePic} first={this.state.firstName} last={this.state.lastName} clickHandler={this.showUploader} />;
-                {this.state.uploaderIsVisible && <Uploader setImage={this.setImage} />}
 
                 <BrowserRouter>
                     <div>
+                        <div className="header">
+                            <Logo first={this.state.firstName} last={this.state.lastName}/>
+                            <img className="profilepic" src={this.state.profilePic} onClick={this.showUploader} />{this.state.firstName} {this.state.lastName}
+                            <div className="delete-account"> <button className="delete-account-button" onClick={this.deleteAccount}>Delete Your Account</button></div>
+                            {this.state.uploaderIsVisible && <Uploader setImage={this.setImage} />}
+                        </div>
+
                         <Route path="/profile" render={() => (
                             <Profile
                                 firstName={ this.state.firstName }
@@ -92,12 +116,20 @@ class App extends React.Component {
                                 setBio = {this.setBio}
                             />
                         )} />
-                        <Route path="/user/:id" component={OtherUserProfile} />
-                        <Route path="/friends" component={Friends} />
-                        <Route path='/online' component= {OnlineUsers} />
-                        <Route path="/chat" component={Chat} />
+                        <Route exact path="/user/:id" component={OtherUserProfile} />
+                        <Route exact path="/friends" component={Friends} />
+                        <Route exact path='/online' component= {OnlineUsers} />
+                        <Route exact path="/chat" component={Chat} />
+                        <div className="footer">
+                            <footer>
+                        &#169; 2018 Created by Alaa
+                            </footer>
+                        </div>
                     </div>
+
                 </BrowserRouter>
+
+
             </div>
         );
 

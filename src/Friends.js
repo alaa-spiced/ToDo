@@ -28,12 +28,12 @@ class Friends extends React.Component {
         }
 
         var wannabes = (
-            <div className="users">
+            <div className="main-users">
                 {userWannabes.map(user => (
                     <div className="user" key={user.id}>
-                        <img className="profilepic" src={user.image_url} />
-                        <h3>{user.first_name} {user.last_name}</h3>
-                        <div className="button">
+                        <img className="friends-profilepic" src={user.image_url} />
+                        <div className="button-friends">
+                            <h3>{user.first_name} {user.last_name}</h3>
                             <button onClick={()=>this.handleAcceptClick(user.id)}>Accept Friend Request</button>
                         </div>
 
@@ -43,12 +43,13 @@ class Friends extends React.Component {
         );
 
         var friends = (
-            <div className="users">
+            <div className="main-users">
                 {userFriends.map(user => (
                     <div className="user" key={user.id}>
-                        <img className="profilepic" src={user.image_url} />
-                        <h3>{user.first_name} {user.last_name}</h3>
-                        <div className="button">
+                        <img className="friends-profilepic" src={user.image_url} />
+
+                        <div className="button-friends">
+                            <h3>{user.first_name} {user.last_name}</h3>
                             <button onClick={()=>this.handleDeleteClick(user.id)}>End Friendship</button>
                         </div>
                     </div>

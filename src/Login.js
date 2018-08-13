@@ -41,24 +41,24 @@ class Login extends Component { //inherits properties of Component
             );
         }else {
             return (
-                <div>
-                    <form onSubmit={this.handleSubmit}>
-                        <label> E-Mail:
-                            <input
-                                type="text"
-                                name="email"
-                                placeholder="E-Mail"
-                                onChange={this.handleChange}
-                            />
-                        </label>
-                        <label> Password:
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                onChange={this.handleChange}
-                            />
-                        </label>
+                <div className="login-div">
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        <label> E-Mail: </label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="E-Mail"
+                            onChange={this.handleChange}
+                        />
+
+                        <label> Password: </label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            onChange={this.handleChange}
+                        />
+
                         <input type="submit" value="submit" />
                     </form>
                 </div>

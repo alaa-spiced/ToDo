@@ -77,12 +77,15 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 
     if (req.file) {
         var imageUrl = config.s3UrlStart + req.file.filename;
-
-        db.updateUserProfilePic(req.session.userId , imageUrl ).then(()=>{
-            res.json({
-                imageUrl : imageUrl,
-                success: true });
+        db.addImage(req.session.userId , req.file.filename).then(()=>{
+        }).then(()=>{
+            db.updateUserProfilePic(req.session.userId , imageUrl ).then(()=>{
+                res.json({
+                    imageUrl : imageUrl,
+                    success: true });
+            });
         });
+
 
     } else {
         res.json({ success: false });
@@ -315,6 +318,47 @@ app.get('/friends-wannabes', (req , res) => {
 
     }).catch(()=>{
         res.sendStatus(500);
+    });
+});
+
+app.get('/delete-account', checkLogin, (req, res) =>{
+    var userImages = [];
+    db.getUserImages(req.session.userId).then((results)=>{
+        console.log(results);
+
+        if (results.length != 0) {
+            for (var i = 0; i < results.length; i++) {
+                userImages.push(results[i].image_urls);
+            }
+            console.log(userImages);
+            s3.deleteUserImagesS3(userImages);
+            db.deleteUserImagesDb(req.session.userId).then(()=>{
+            });
+        }
+    }).then(()=>{
+        db.deleteUserFriendships(req.session.userId).then(()=>{
+            db.deleteUser(req.session.userId).then(()=>{
+                console.log("The account is deleted successfully");
+                req.session.userId = null;
+                req.session.isLoggedIn = false;
+                res.json({
+                    success : true,
+                    message : 'Your account has been deleted successfully'
+                });
+            });
+        });
+    });
+
+
+});
+
+app.post('/other-user-friends', (req , res)=>{
+    console.log(req.body.ouId);
+    db.getOtherUserFriends(req.body.ouId).then((otherUserFriends)=>{
+        console.log(otherUserFriends);
+        res.json({
+            otherUserFriends
+        });
     });
 });
 

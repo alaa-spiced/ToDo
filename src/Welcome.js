@@ -7,14 +7,17 @@ function Welcome() {
     return (
         <div id="welcome-page">
             <div className="logo-image-container">
-                <img className="logo-image" src="./images/logo.png" alt="Logo image" />
-                <div className="peace-text">
-                    <h1>PEACE</h1>
+                <div className="welcome-trasparent"></div>
+                <div className="logo-image-div"><img className="logo-image-welcome"  src="/images/logo.png" alt="Logo image" />
+                    <div className="peace-text">
+                        <h1>PEACE</h1>
+                    </div>
                 </div>
+
             </div>
 
             <HashRouter>
-                <div>
+                <div className="welcome-page-routs">
                     <Route exact path="/" component={Registration} />
                     <Route path="/login" component={Login} />
                 </div>

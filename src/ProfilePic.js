@@ -3,8 +3,8 @@ import React from 'react';
 function ProfilePic ({image, first, last, clickHandler}) {
     return (
         <div className="profilepic-container">
-            <div > <img className="profilepic" src={image} onClick={clickHandler} /></div>
-            <p>{first}{" "}{last}</p>
+            <img className="profile-profilepic" src={image} onClick={clickHandler} />
+            <h1 className="user-name-profile">{first}{" "}{last}</h1>
         </div>
     );
 }

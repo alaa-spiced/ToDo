@@ -39,6 +39,13 @@ export default function(state = {}, action) {
         };
     }
 
+    if (action.type == 'RECEIVE_OTHER_USER_FRIENDS') {
+        state = {
+            ...state,
+            otherUserFriends: action.otherUserFriends
+        };
+    }
+
     if (action.type == 'PUSH_ONLINE_USERS_TO_REDUX') {
         console.log("pushOnlineUsersToRedux", action.onlineUsers);
         state = {

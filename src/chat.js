@@ -28,14 +28,16 @@ class Chat extends React.Component {
         }
         let chatMsgs = chatMessages.slice(-10,);
         const chatDiv = (
-            <div>
+            <div className="main-chat-div">
                 <h1>Chat</h1>
                 <div className="chatMessages">
                     {chatMsgs.map(message => (
                         <div key={message.date} className="message">
-                            <img className="profile-pic-chat" src={message.profilePic || '/images/default.png'}/> {message.date}
-                            <div className='userName'>{message.firstName} {message.lastName}</div>
-                            <div className='message-content'>{message.content}</div>
+
+                            <div className='userName'>
+                                <img src={message.profilePic || '/images/default.png'}/>
+                                {message.firstName} {message.lastName} wrote: <br></br><p>{message.content}</p></div>
+
                         </div>
                     ))}
 
@@ -44,13 +46,13 @@ class Chat extends React.Component {
         );
 
         return (
-            <div>
-                <div id="chat">
+            <div className="chatDiv">
+                <div id="main-chat-area">
                     {chatDiv}
                 </div><br></br>
-                <form onSubmit={ this.handleSubmitTextarea } >
+                <form className="submit-area" onSubmit={ this.handleSubmitTextarea } >
                     <textarea id="chatTextArea" name="chatMessage" onChange={ this.handleChangeTextarea }></textarea>
-                    <button type="submit">Send Message</button>
+                    <button id="submit-message" type="submit">Send Message</button>
                 </form>
             </div>
         );

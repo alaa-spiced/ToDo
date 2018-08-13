@@ -8,6 +8,15 @@ export async function receiveFriendsWannabes() {
     };
 }
 
+export async function receiveOtherUserFriends(ouId) {
+    console.log("action ", ouId);
+    const results  = await axios.post('/other-user-friends',({ouId : ouId}));
+    console.log("Other User Friends" , results.data.otherUserFriends);
+    return {
+        type                    :   'RECEIVE_OTHER_USER_FRIENDS',
+        otherUserFriends  :   results.data.otherUserFriends
+    };
+}
 
 export async function acceptFriendRequest(senderId) {
     const results = await axios.post('/update-friend',{senderId : senderId, status : 2});
