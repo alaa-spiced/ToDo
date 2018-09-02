@@ -20,10 +20,9 @@ function Uploader({setImage}){
 
 
     return (
-        <div >
-            <label className="file-field">select image</label> {fileName}
+        <div className="uploader-div">
             <input type="file"  id="file-field" onChange={imageSelected} />
-            <button className="upload-button" onClick={upload}>upload!</button>
+            <button className="upload-button" onClick={upload}>Upload Image</button>
         </div>
     );
 }

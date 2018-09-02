@@ -3,8 +3,7 @@ import { BrowserRouter , Route } from 'react-router-dom';
 import Logo from './Logo';
 import axios from './axios';
 import Profile from './Profile';
-import Uploader from './Uploader';
-import ProfilePic from './ProfilePic';
+// import Uploader from './Uploader';
 import OtherUserProfile from './OtherUserProfile';
 import Friends from './Friends';
 import Chat from './chat';
@@ -63,10 +62,12 @@ class App extends React.Component {
     }
 
     setBio(bioText){
+        console.log(bioText);
         axios.post('/user-bio',{bioText}).then((results)=>{
             console.log(results);
             this.setState({
-                showBio : false
+                showBio : false,
+                bio : bioText
             });
         });
     }
@@ -96,11 +97,9 @@ class App extends React.Component {
                     <div>
                         <div className="header">
                             <Logo first={this.state.firstName} last={this.state.lastName}/>
-                            <img className="profilepic" src={this.state.profilePic} onClick={this.showUploader} />{this.state.firstName} {this.state.lastName}
+                            <img className="profilepic" src={this.state.profilePic}  />{this.state.firstName} {this.state.lastName}
                             <div className="delete-account"> <button className="delete-account-button" onClick={this.deleteAccount}>Delete Your Account</button></div>
-                            {this.state.uploaderIsVisible && <Uploader setImage={this.setImage} />}
                         </div>
-
                         <Route path="/profile" render={() => (
                             <Profile
                                 firstName={ this.state.firstName }
@@ -122,7 +121,7 @@ class App extends React.Component {
                         <Route exact path="/chat" component={Chat} />
                         <div className="footer">
                             <footer>
-                        &#169; 2018 Created by Alaa
+                        &#169; 2018 Created by Alaa Abushkayyan
                             </footer>
                         </div>
                     </div>

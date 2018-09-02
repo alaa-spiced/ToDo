@@ -157,6 +157,16 @@ exports.deleteUser = function(userId) {
         });
 };
 
+exports.checkOtherUserId = function(userId) {
+    const q = `
+           SELECT * FROM users where id= $1;
+       `;
+    const params = [userId];
+    return db.query(q, params).then(results => {
+        return results.rows;
+    });
+};
+
 
 exports.getOtherUserFriends = function(userId) {
     const q = `

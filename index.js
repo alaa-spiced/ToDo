@@ -187,19 +187,34 @@ app.get('/user/:id.json', (req , res)=> {
             redirect: '/'
         });
     } else {
-        db.getUserInfoById(req.params.id).then((results)=>{
-            console.log("getting user info");
-            res.json({
-                ...results
-            });
-        }).catch(()=>{
-            res.sendStatus(500);
+        db.checkOtherUserId(req.params.id).then((results)=>{
+            if (results.length != 0) {
+                db.getUserInfoById(req.params.id).then((results)=>{
+                    console.log("getting user info");
+                    res.json({
+                        ...results
+                    });
+                }).catch(()=>{
+                    res.sendStatus(500);
+                });
+            }else {
+                res.json({
+                    noSuchId : 'User Id does not exist'
+                });
+            }
         });
+
     }
 });
 
 app.post('/user-bio', checkLogin, (req , res)=>{
-    console.log(req.body.bioText);
+    console.log("Here is the bio ");
+    console.log("Here is the bio ");
+    console.log("Here is the bio ");
+    console.log("Here is the bio ");
+    console.log("Here is the bio ");
+    console.log("Here is the bio ");
+    console.log("Here is the bio ", req.body.bioText);
     console.log(req.session.userId);
     db.updateUserBio(req.session.userId, req.body.bioText).then((results)=>{
         res.json({
@@ -432,6 +447,6 @@ io.on('connection', function(socket) {
     });
 });
 
-server.listen(8080, function() {
+server.listen((process.env.PORT || 8080), function() {
     console.log("I'm listening.");
 });

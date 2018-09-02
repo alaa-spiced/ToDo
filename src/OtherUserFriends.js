@@ -26,9 +26,6 @@ class OtherUserFriends extends React.Component {
                     <div className="user" key={user.id}>
                         <img className="profilepic" src={user.image_url} />
                         <h3>{user.first_name} {user.last_name}</h3>
-                        {/*  <div className="button">
-                            <button onClick={()=>this.handleDeleteClick(user.id)}>End Friendship</button>
-                        </div>*/}
                     </div>
                 ))}
             </div>

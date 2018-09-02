@@ -23,7 +23,11 @@ class OtherUserProfile extends Component {
             .then((results) => {
                 if (results.data.redirect) {
                     this.props.history.push('/');
-                } else {
+                } else if (results.data.noSuchId) {
+                    this.setState({
+                        noSuchId : results.data.noSuchId
+                    });
+                }else{
                     this.setState({
                         otherUserId     : results.data.id,
                         otherUserFirstName  : results.data.first_name,
@@ -37,6 +41,9 @@ class OtherUserProfile extends Component {
     }
 
     render() {
+        if (this.state.noSuchId) {
+            return (<div>No Such User Id</div>);
+        }
         return (
             <div id="other-user-profile">
                 <h1>{this.state.otherUserFirstName}, {this.state.otherUserLastName} {" "} Profile</h1>

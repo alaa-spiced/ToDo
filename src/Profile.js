@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ProfilePic from './ProfilePic';
 import Uploader from './Uploader';
-// import axios from './axios';
-// import FriendshipButton from './FriendshipButton';
 
 class Profile extends Component {
 
@@ -13,29 +11,25 @@ class Profile extends Component {
 
     }
 
-    // componentDidMount(){
-    //     axios.get('/friends-wannabes').then(({data}) =>{
-    //         console.log(data.userFriendsAndWannabes);
-    //         console.log(data.userFriendsAndWannabes.length);
-    //     });
-    // }
-
     handleChange(e){
-        // textArea = e.target.value;
         this.setState({ [e.target.name] : e.target.value }, ()=>{
+            console.log(this.state);
         });
+
     }
 
     render() {
         const { firstName, lastName, profilePic, uploaderIsVisible, userBio, showBio, toggleShowBio, showUploader, setImage, setBio } = this.props;
         return (
             <div id="profile">
-                <ProfilePic className="profile-profilepic" image={profilePic} first={firstName} last={lastName} clickHandler={showUploader} />
-                {uploaderIsVisible && <Uploader className="uploader" setImage={setImage} />}
+                <div className="profilePic-uploader">
+                    <ProfilePic className="profile-profilepic" image={profilePic} first={firstName} last={lastName} clickHandler={showUploader} />
+                    {uploaderIsVisible && <Uploader className="uploader" setImage={setImage} />}
+                </div>
                 <div className="bio-div">{userBio && <h5 className="user-bio">{userBio}</h5>}
 
                     { showBio
-                        ? (<form onSubmit={()=>setBio(this.state.bioText)}><textarea name="bioText" onChange={this.handleChange}></textarea> <input type="submit" value="submit" /></form>)
+                        ? (<form onSubmit={()=>setBio(this.state.bioText)}><textarea className="bio-textarea" name="bioText" onChange={this.handleChange}></textarea> <input type="submit" value="submit" /></form>)
                         : <p onClick={ toggleShowBio } >Click to Edit a bio</p>
                     }
                 </div>
