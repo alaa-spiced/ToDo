@@ -4,7 +4,7 @@ const server = require('http').Server(app);
 
 let domain;
 if (process.env.NODE_ENV == "production") {
-    domain = 'https://co-living.herokuapp.com:*';
+    domain = 'https://alaa-socialnetwork.herokuapp.com:*';
 } else {
     domain = 'localhost:8080';
 }
