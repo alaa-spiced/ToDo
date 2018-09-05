@@ -415,39 +415,6 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 });
 
 
-app.post('/registration', (req , res)=>{
-    if (req.body.firstname == "" || req.body.lastname == "" || req.body.email == "" || req.body.password == "") {
-        res.json({
-            "success" : false,
-            "message" : "Please Fill in the whole fields"
-        });
-    }else {
-        db.checkEmail(req.body.email).then((results)=>{
-            if (results.length == 0) {
-                bcrypt.hashPassword(req.body.password).then((hashedPassword)=>{
-                    db.createUser(req.body.firstname, req.body.lastname, req.body.email, hashedPassword).then((results)=>{
-                        req.session.isLoggedIn = true;
-                        console.log(results);
-                        req.session.userId = results.id;
-                        res.json({
-                            success : true,
-                            message : "User created successfully"
-                        });
-                    });
-                }).catch(err=>{
-                    console.log(err);
-                });
-            }else {
-                req.session.loggedIn = false;
-                res.json({
-                    success : false,
-                    message : "Duplicate Email found, Please use another email address"
-                });
-            }
-        });
-    }
-});
-
 app.post('/login' , (req , res) => {
     var userInfo;
     if (req.body.email == "" || req.body.password == "") {
@@ -709,6 +676,12 @@ app.get('/logout', checkLogin, (req, res) =>{
 app.get('*', checkLogin, (req, res) =>
     res.sendFile(`${__dirname}/index.html`)
 );
+
+
+io.configure(function () {
+    io.set("transports", ["xhr-polling"]);
+    io.set("polling duration", 10);
+});
 
 let onlineUsers = {};
 let chatMessages = [];
