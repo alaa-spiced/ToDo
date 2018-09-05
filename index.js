@@ -18,7 +18,7 @@ const compression = require('compression');
 
 app.use(compression());
 
-
+app.use(express.static(__dirname + '/public'));
 if (process.env.NODE_ENV != 'production') {
     app.use(
         '/bundle.js',
@@ -27,13 +27,8 @@ if (process.env.NODE_ENV != 'production') {
         })
     );
 } else {
-    app.use('/bundle.js', (req, res) =>{
-        const index = path.join(__dirname, 'build', 'index.html');
-        res.sendFile(index);
-    });
+    app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
-
-app.use(express.static(__dirname + '/public'));
 
 const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
