@@ -35,44 +35,6 @@ app.use(express.static(__dirname + '/public'));
 const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 90
-<<<<<<< HEAD
-});
-
-app.use(cookieSessionMiddleware);
-io.use(function(socket, next) {
-    cookieSessionMiddleware(socket.request, socket.request.res, next);
-});
-
-app.use(csurf());
-
-app.use(function(req, res, next){
-    res.cookie('mytoken', req.csrfToken());
-    next();
-});
-
-function checkLogin(req, res, next) {
-    !req.session.isLoggedIn
-        ? res.redirect('/welcome')
-        : next();
-}
-
-const diskStorage = multer.diskStorage({
-    destination: function(req, file, callback) {
-        callback(null, __dirname + "/uploads");
-    },
-    filename: function(req, file, callback) {
-        uidSafe(24).then(function(uid) {
-            callback(null, uid + path.extname(file.originalname));
-        });
-    }
-});
-
-const uploader = multer({
-    storage: diskStorage,
-    limits: {
-        fileSize: 2097152
-    }
-=======
 });
 
 app.use(cookieSessionMiddleware);
@@ -110,6 +72,19 @@ const uploader = multer({
         fileSize: 2097152
     }
 });
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(csurf());
+
+app.use(function(req, res, next){
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
+
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 
@@ -123,7 +98,6 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
                     success: true });
             });
         });
-
 
     } else {
         res.json({ success: false });
@@ -246,12 +220,6 @@ app.get('/user/:id.json', (req , res)=> {
 });
 
 app.post('/user-bio', checkLogin, (req , res)=>{
-    console.log("Here is the bio ");
-    console.log("Here is the bio ");
-    console.log("Here is the bio ");
-    console.log("Here is the bio ");
-    console.log("Here is the bio ");
-    console.log("Here is the bio ");
     console.log("Here is the bio ", req.body.bioText);
     console.log(req.session.userId);
     db.updateUserBio(req.session.userId, req.body.bioText).then((results)=>{
@@ -427,68 +395,6 @@ app.get('*', checkLogin, (req, res) =>
     res.sendFile(`${__dirname}/index.html`)
 );
 
-let onlineUsers = {};
-let chatMessages = [];
-
-io.on('connection', function(socket) {
-
-    onlineUsers[socket.id]= socket.request.session.userId;
-    db.getUsersInfosByIds(Object.values(onlineUsers)).then(users => {
-        console.log("online users are : ", users);
-        socket.emit("onlineUsers", users);
-    });
-
-    socket.emit("chatMessages", chatMessages.slice(-10,));
-
-    if ( Object.values(onlineUsers).filter(id => id == socket.request.session.userId).length == 1 ) {
-        db.getUserInfoById(socket.request.session.userId).then(
-            results => {
-                socket.broadcast.emit("userJoined", results);
-            }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    socket.on('disconnect', function() {
-
-        if ( Object.values(onlineUsers).filter( id => id == socket.request.session.userId ).length == 1 ) {
-            db.getUserInfoById(socket.request.session.userId).then(
-                results => {
-                    socket.broadcast.emit("userLeft", results);
-                }).catch(error => {
-                console.log(error);
-            });
-
-        }
-        delete onlineUsers[socket.id];
-
-    });
-
-    socket.on('newMessage', function (newMessage) {
-        db.getUserInfoById(socket.request.session.userId).then(
-            data => {
-                let completNewMessage = {
-                    firstName: data.first_name,
-                    lastName : data.last_name,
-                    profilePic: data.image_url,
-                    userId: socket.request.session.userId,
-                    content: newMessage,
-                    date: new Date()
-                };
-
-                chatMessages = [...chatMessages, completNewMessage];
-                io.sockets.emit('newMessageBack', completNewMessage);
-
-            }).catch(error => {
-            console.log(error);
-        });
-    });
-});
-
-server.listen((process.env.PORT || 8080), function() {
-    console.log("I'm listening.");
->>>>>>> 9815ea825ef8247ee5b5894d92eba2f74f299f0c
-});
 
 app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 

@@ -26,8 +26,5 @@ module.exports.checkPassword = function(textEnteredInLoginForm, hashedPasswordFr
             }
         });
     });
-<<<<<<< HEAD
+
 };
-=======
-};
->>>>>>> 9815ea825ef8247ee5b5894d92eba2f74f299f0c

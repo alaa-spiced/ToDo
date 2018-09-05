@@ -1,14 +1,7 @@
 const knox = require("knox");
 const fs = require("fs");
-<<<<<<< HEAD
 
 let secrets;
-=======
-const AWS = require('aws-sdk');
-
-let secrets;
-var s3 = new AWS.S3();
->>>>>>> 9815ea825ef8247ee5b5894d92eba2f74f299f0c
 
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
