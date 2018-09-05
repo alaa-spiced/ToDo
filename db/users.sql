@@ -9,4 +9,8 @@ CREATE TABLE users (
   image_url VARCHAR(255),
   bio TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 9815ea825ef8247ee5b5894d92eba2f74f299f0c

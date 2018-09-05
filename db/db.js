@@ -180,4 +180,8 @@ exports.getOtherUserFriends = function(userId) {
     return db.query(q, params).then(results => {
         return results.rows;
     });
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 9815ea825ef8247ee5b5894d92eba2f74f299f0c
