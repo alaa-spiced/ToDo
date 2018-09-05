@@ -27,7 +27,10 @@ if (process.env.NODE_ENV != 'production') {
         })
     );
 } else {
-    app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
+    app.use('/bundle.js', (req, res) =>{
+        const index = path.join(__dirname, 'build', 'index.html');
+        res.sendFile(index);
+    });
 }
 
 app.use(express.static(__dirname + '/public'));
