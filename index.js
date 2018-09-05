@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: 'localhost:8080' || process.env.PORT });
+const io = require('socket.io')(server, { origins: process.env.PORT || 'localhost:8080' });
 const s3 = require("./s3");
 const config = require('./config');
 const multer = require("multer");
