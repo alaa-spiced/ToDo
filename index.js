@@ -1,7 +1,15 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { origins: process.env.PORT || 'localhost:8080' });
+
+let domain;
+if (process.env.NODE_ENV == "production") {
+    domain = 'https://co-living.herokuapp.com:*';
+} else {
+    domain = 'localhost:8080';
+}
+const io = require('socket.io')(server, { origins: domain });
+
 const s3 = require("./s3");
 const config = require('./config');
 const multer = require("multer");
