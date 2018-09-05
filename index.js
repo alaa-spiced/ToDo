@@ -708,9 +708,14 @@ app.get('/logout', checkLogin, (req, res) =>{
 
 });
 
-app.get('*', checkLogin, (req, res) =>
-    res.sendFile(`${__dirname}/index.html`)
-);
+// app.get('*', checkLogin, (req, res) =>
+//     res.sendFile(`${__dirname}/index.html`)
+// );
+
+app.get('*', function (req, res) {
+    const index = path.join(__dirname, 'build', 'index.html');
+    res.sendFile(index);
+});
 
 let onlineUsers = {};
 let chatMessages = [];
