@@ -6,7 +6,8 @@ class ManageUserProjects extends Component {
         super(props);
         this.state = {
             userInfo: this.props.userInfo,
-            showProjectInfo: false
+            showProjectInfo: false,
+            errorMessage : ''
         };
         this.changeDateStyle = this.changeDateStyle.bind(this);
         this.toggleShowProjectInfo = this.toggleShowProjectInfo.bind(this);
@@ -39,6 +40,10 @@ class ManageUserProjects extends Component {
             return null;
         }
 
+        if (projectsTasks.length == 0) {
+            return (<div className="no-projects-found">You have no Projects to manage</div>);
+        }
+
         var userProjectsDiv = (
             <div className="user-projects-div">
                 {projectsTasks.map(project => (
@@ -65,7 +70,7 @@ class ManageUserProjects extends Component {
             </div>
         );
 
-        return <div className="user-projects-div">{userProjectsDiv}</div>;
+        return <div className="user-projects-div">{this.state.errorMessage}{userProjectsDiv}</div>;
     }
 }
 

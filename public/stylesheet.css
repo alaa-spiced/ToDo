@@ -389,6 +389,14 @@ background-color: lightblue;
   padding: 10px;
 }
 
+.no-projects-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
 .project-info {
   width: 100%;
   height: 60%;
