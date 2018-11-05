@@ -1,5 +1,5 @@
 const spicedPg = require("spiced-pg");
-let db; //connecting to heroku or localhost
+let db;
 if (process.env.DATABASE_URL) {
     db = spicedPg(process.env.DATABASE_URL);
 }else {
@@ -42,69 +42,13 @@ exports.updateUserProfilePic = function(userId , imageUrl) {
     });
 };
 
-exports.updateUserBio = function(userId, bio) {
+exports.updateUserInfo = function (firstName,lastName,gender,phoneNumber,email,password,userId) {
     const q =
-    "UPDATE users SET bio = ($2) WHERE id = ($1) RETURNING *;";
+  "UPDATE users SET first_name = ($1), last_name = ($2), gender = ($3), phone_number = ($4), email = ($5), hashed_password = ($6) WHERE id = ($7) RETURNING *;";
 
-    const params = [userId , bio];
+    const params = [firstName,lastName,gender,phoneNumber,email,password,userId];
     return db.query(q, params).then(results => {
         return results.rows[0];
-    });
-};
-
-exports.getFriendshipStatusById = function(userId) {
-    const q = "SELECT * FROM friendships WHERE (receiver_id = $1);";
-    const params = [userId];
-    return db.query(q, params).then(results => {
-        return results.rows;
-    });
-};
-
-exports.getFriendshipStatus = function(senderId, receiverId) {
-    const q = "SELECT * FROM friendships WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1));";
-    const params = [senderId, receiverId];
-    return db.query(q, params).then(results => {
-        return results.rows;
-    });
-};
-
-exports.setFriendshipStatus = function(senderId, receiverId , status) {
-    const q = "UPDATE friendships SET status = $3 WHERE (sender_id = $1 AND receiver_id = $2) RETURNING *;";
-    const params = [senderId, receiverId, status];
-    return db.query(q, params).then(results => {
-        return results.rows[0];
-    });
-};
-
-exports.deleteFriendship = function(senderId, receiverId) {
-    const q = "DELETE FROM friendships where ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)) RETURNING *;";
-    const params = [senderId, receiverId];
-    return db.query(q, params).then(results => {
-        return results.rows[0];
-    });
-};
-
-exports.addFriend = function(senderId, receiverId , status) {
-    const q = "INSERT INTO friendships (sender_id,receiver_id,status) VALUES ($1, $2, $3) RETURNING *;";
-    const params = [senderId, receiverId, status];
-    return db.query(q, params).then(results => {
-        return results.rows[0];
-    });
-};
-
-
-exports.getFriendsAndWannabes = function(userId) {
-    const q = `
-           SELECT users.id, first_name, last_name, image_url, status
-           FROM friendships
-           JOIN users
-           ON (status = 1 AND receiver_id = $1 AND sender_id = users.id)
-           OR (status = 2 AND receiver_id = $1 AND sender_id = users.id)
-           OR (status = 2 AND sender_id = $1 AND receiver_id = users.id);
-       `;
-    const params = [userId];
-    return db.query(q, params).then(results => {
-        return results.rows;
     });
 };
 
@@ -117,67 +61,57 @@ exports.getUsersInfosByIds = function(arrayOfIds) {
         });
 };
 
-exports.deleteUserFriendships = function(userId) {
-    const query = `DELETE FROM friendships WHERE (sender_id =($1) OR receiver_id = ($1))`;
-    return db.query(query, [userId])
-        .then(results => {
-            return results.rows[0];
-        });
+exports.createProject = function(userId, title, description) {
+    const query =
+    "INSERT INTO projects (user_id, title, description) VALUES ($1, $2 ,$3) RETURNING *";
+
+    const params = [userId, title, description];
+    return db.query(query, params).then(results => {
+        return results.rows[0];
+    });
 };
 
-exports.getUserImages = function(userId) {
-    const query = `SELECT image_urls FROM images WHERE user_id =($1);`;
-    return db.query(query, [userId])
-        .then(results => {
-            return results.rows;
-        });
-};
-
-exports.deleteUserImagesDb = function(userId) {
-    const query = `DELETE FROM images WHERE user_id =($1);`;
+exports.getUserProjects = function(userId) {
+    const query = `SELECT * FROM projects WHERE user_id =($1);`;
     return db.query(query, [userId])
         .then(results => {
             return results.rows;
         });
 };
 
-exports.addImage = function(userId, imageName) {
-    const q = "INSERT INTO images (user_id,image_urls) VALUES ($1, $2);";
-    const params = [userId, imageName];
+exports.getUserProjectTasks = function(projectId) {
+    const query = `SELECT * FROM tasks WHERE project_id =($1);`;
+    return db.query(query, [projectId])
+        .then(results => {
+            return results.rows;
+        });
+};
+
+exports.updateUserProject = function (userId, projectId, projectTitle, projectDescription) {
+    const q =
+  "UPDATE projects SET title = ($3), description = ($4) WHERE id = ($2) AND user_id = ($1)  RETURNING *;";
+
+    const params = [userId, projectId, projectTitle, projectDescription];
     return db.query(q, params).then(results => {
         return results.rows[0];
     });
 };
 
-exports.deleteUser = function(userId) {
-    const query = `DELETE FROM users WHERE id =($1);`;
-    return db.query(query, [userId])
-        .then(results => {
-            return results.rows;
-        });
-};
+exports.deleteProjectTasks = function (projectId) {
+    const q =
+  "DELETE FROM tasks WHERE project_id = ($1) RETURNING *;";
 
-exports.checkOtherUserId = function(userId) {
-    const q = `
-           SELECT * FROM users where id= $1;
-       `;
-    const params = [userId];
+    const params = [projectId];
     return db.query(q, params).then(results => {
         return results.rows;
     });
 };
 
-
-exports.getOtherUserFriends = function(userId) {
-    const q = `
-           SELECT users.id, first_name, last_name, image_url, status
-           FROM friendships
-           JOIN users
-           ON (status = 2 AND receiver_id = $1 AND sender_id = users.id)
-           OR (status = 2 AND sender_id = $1 AND receiver_id = users.id);
-       `;
-    const params = [userId];
+exports.deleteUserProject = function (userId, projectId) {
+    const q =
+  'DELETE FROM projects WHERE user_id = ($1) AND id = ($2) RETURNING *;';
+    const params = [userId, projectId];
     return db.query(q, params).then(results => {
-        return results.rows;
+        return results.rows[0];
     });
 };

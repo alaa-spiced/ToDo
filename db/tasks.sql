@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS tasks;
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  project_id INT REFERENCES projects(id),
+  title VARCHAR(100) NOT NULL,
+  done BOOLEAN,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

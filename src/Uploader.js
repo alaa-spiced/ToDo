@@ -13,16 +13,17 @@ function Uploader({setImage}){
         var formData = new FormData();
         formData.append("file", imageFile);
         axios.post("/upload", formData).then(function(res) {
-            console.log(res.data);
+            console.log(res.data.imageUrl);
             setImage(res.data.imageUrl);
         });
     }
 
 
     return (
-        <div className="uploader-div">
-            <input type="file"  id="file-field" onChange={imageSelected} />
-            <button className="upload-button" onClick={upload}>Upload Image</button>
+        <div className="profile-uploader">
+            <input type="file"  className="inputfile" onChange={imageSelected} />
+            <label htmlFor="file">Upload image</label>
+            <button className="upload-button" onClick={upload}>upload</button>
         </div>
     );
 }

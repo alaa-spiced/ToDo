@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import axios from './axios';
+import { Link } from 'react-router-dom';
 import App from './App';
-// import { Link } from 'react-router-dom';
 
-class Login extends Component { //inherits properties of Component
+class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {isLoggedIn : null};
+        this.state = {
+            errorMessage : null
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,24 +16,20 @@ class Login extends Component { //inherits properties of Component
 
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value }, ()=>{
-            console.log(this.state);
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        axios.post('/login', this.state).then((results)=>{
-            if (results.data.success) {
-                this.setState({isloggedIn : true});
-                console.log(results.data.message);
-                location.replace('/');
-
-            }else {
-                super.setState({isloggedIn : false});
-                console.log(results.data.message);
-            }
-        });
-
+        const results = await axios.post('/login', this.state);
+        if (results.data.success) {
+            this.setState({isloggedIn : true});
+            location.replace('/');
+        }else {
+            this.setState({
+                errorMessage : results.data.message
+            });
+        }
     }
 
     render() {
@@ -43,29 +41,30 @@ class Login extends Component { //inherits properties of Component
             return (
                 <div className="login-div">
                     <form className="login-form" onSubmit={this.handleSubmit}>
-                        <label> E-Mail: </label>
                         <input
                             type="email"
                             name="email"
+                            required
                             placeholder="E-Mail"
                             onChange={this.handleChange}
                         />
 
-                        <label> Password: </label>
                         <input
                             type="password"
                             name="password"
+                            required
                             placeholder="Password"
                             onChange={this.handleChange}
                         />
 
-                        <input type="submit" value="submit" />
+                        <input type="submit" value="Log In" />
+                        {this.state.errorMessage && <div>{this.state.errorMessage}</div>}
                     </form>
+                    <Link to="/">Click here to Register!</Link>
                 </div>
             );
         }
     }
-
 }
 
 export default Login;

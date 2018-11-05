@@ -9,8 +9,8 @@ function Welcome() {
             <div className="logo-image-container">
                 <div className="welcome-trasparent"></div>
                 <div className="logo-image-div"><img className="logo-image-welcome"  src="/images/logo.png" alt="Logo image" />
-                    <div className="peace-text">
-                        <h1>PEACE</h1>
+                    <div className="todo-text">
+                        <h1>Projects Flow Control</h1>
                     </div>
                 </div>
 

@@ -3,10 +3,12 @@ import axios from './axios';
 import { Link } from 'react-router-dom';
 import App from './App';
 
-class Registration extends Component { //inherits properties of Component
+class Registration extends Component {
     constructor(props) {
         super(props);
-        this.state = {isLoggedIn : null};
+        this.state = {
+            errorMessage : null
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,25 +16,21 @@ class Registration extends Component { //inherits properties of Component
 
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value }, ()=>{
-            console.log(this.state);
         });
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
 
-        axios.post('/registration', this.state).then((results)=>{
-            if (results.data.success) {
-                console.log(results.data.success);
-                this.setState({isloggedIn : true});
-                location.replace('/');
-
-            }else {
-                this.setState({isloggedIn : false});
-
-            }
-        });
-
+        const results = await axios.post('/registration', this.state);
+        if (results.data.success) {
+            this.setState({isloggedIn : true});
+            location.replace('/');
+        }else {
+            this.setState({
+                errorMessage : results.data.message
+            });
+        }
     }
 
     render() {
@@ -44,47 +42,52 @@ class Registration extends Component { //inherits properties of Component
         return (
             <div className="registration-div">
                 <form className="registration-form" onSubmit={this.handleSubmit}>
-                    <label> First Name: </label>
                     <input
                         type="text"
                         name="firstname"
+                        required
+                        title=" Enter Your First Name "
                         placeholder="First Name"
                         onChange={this.handleChange}
                     />
 
-                    <label> Last Name: </label>
                     <input
                         type="text"
                         name="lastname"
+                        required
+                        title=" Enter Your Last Name "
                         placeholder="Last Name"
                         onChange={this.handleChange}
                     />
 
-                    <label> E-Mail: </label>
                     <input
                         type="email"
                         name="email"
+                        required
+                        title=" Enter Your E-Mail Address "
                         placeholder="E-Mail"
                         onChange={this.handleChange}
                     />
 
-                    <label> Password:  </label>
                     <input
                         type="password"
                         name="password"
+                        pattern = "(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                        minLength="8"
+                        required
+                        title=" Password must contain (UpperCase, LowerCase, Number, SpecialChar and min 8 Chars) "
                         placeholder="Password"
                         onChange={this.handleChange}
                     />
 
-                    <input type="submit" value="submit" />
+                    <input type="submit" value="Sign Up" />
 
                 </form>
+                {this.state.errorMessage && <div>{this.state.errorMessage}</div>}
                 <Link to="/login">Click here to Log in!</Link>
             </div>
         );
     }
-    // }
-
 }
 
 export default Registration;
