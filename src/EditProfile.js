@@ -45,6 +45,7 @@ class EditProfile extends Component {
                         <input
                             type="text"
                             name="gender"
+                            title=" Enter Your Gender "
                             placeholder={userInfo.gender || 'Gender'}
                             onChange={this.handleInfoChange}
                         />
@@ -54,6 +55,7 @@ class EditProfile extends Component {
                         <input
                             type="text"
                             name="phonenumber"
+                            title=" Enter Your Phone Number "
                             placeholder={userInfo.phone_number || 'Phone Number'}
                             onChange={this.handleInfoChange}
                         />
