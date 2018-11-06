@@ -115,3 +115,32 @@ exports.deleteUserProject = function (userId, projectId) {
         return results.rows[0];
     });
 };
+
+exports.addTask = function(projectId, taskTitle, done) {
+    const query =
+    "INSERT INTO tasks (project_id, title, done) VALUES ($1, $2 ,$3) RETURNING *";
+
+    const params = [projectId, taskTitle, done];
+    return db.query(query, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.deleteTask = function (taskId) {
+    const q =
+  'DELETE FROM tasks WHERE id = ($1) RETURNING *;';
+    const params = [taskId];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.updateTask = function (taskId, taskTitle, taskDone) {
+    const q =
+  "UPDATE tasks SET title = ($2), done = ($3) WHERE id = ($1) RETURNING *;";
+
+    const params = [taskId, taskTitle, taskDone];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};

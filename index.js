@@ -189,7 +189,6 @@ app.post('/get-project-tasks', async ( req , res )=>{
 });
 
 app.post('/update-project', async ( req , res )=>{
-    console.log('user project info ', req.body);
     const updatedProject = await db.updateUserProject(req.session.userId, req.body.projectId, req.body.title || req.body.projectTitle, req.body.description || req.body.projectDescription);
     res.json({
         updatedProject
@@ -197,7 +196,6 @@ app.post('/update-project', async ( req , res )=>{
 });
 
 app.post('/delete-project', async ( req , res )=>{
-    console.log('delete Project ', req.body);
     await db.deleteProjectTasks(req.body.projectId);
 
     const deletedProject = await db.deleteUserProject(req.session.userId, req.body.projectId);
@@ -205,6 +203,29 @@ app.post('/delete-project', async ( req , res )=>{
         deletedProject
     });
 });
+
+app.post('/add-task', async (req, res)=>{
+    const addedTask = await db.addTask(req.body.projectId, req.body.taskTitle, req.body.done);
+    res.json({
+        addedTask
+    });
+});
+
+app.post('/delete-task', async ( req , res )=>{
+    const deletedTask = await db.deleteTask(req.body.taskId);
+    res.json({
+        deletedTask
+    });
+});
+
+app.post('/update-task', async ( req , res )=>{
+    const {taskId, taskTitle, taskDone} = req.body;
+    const updatedTask = await db.updateTask(taskId, taskTitle, taskDone);
+    res.json({
+        updatedTask
+    });
+});
+
 
 var hashedPassword;
 app.post("/update-user-info", (req, res) => {

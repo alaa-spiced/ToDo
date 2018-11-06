@@ -25,6 +25,7 @@ class EditProfile extends Component {
                 <form className="registration-form" onSubmit={(event)=>this.props.updateProfile(event, this.state)}>
                     <div className="input-div">
                         <input
+                            className="all-inputs"
                             type="text"
                             name="firstname"
                             placeholder={userInfo.first_name}
@@ -34,6 +35,7 @@ class EditProfile extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="text"
                             name="lastname"
                             placeholder={userInfo.last_name}
@@ -43,6 +45,7 @@ class EditProfile extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="text"
                             name="gender"
                             title=" Enter Your Gender "
@@ -53,6 +56,7 @@ class EditProfile extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="text"
                             name="phonenumber"
                             title=" Enter Your Phone Number "
@@ -63,6 +67,7 @@ class EditProfile extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="email"
                             name="email"
                             placeholder={userInfo.email}
@@ -72,6 +77,7 @@ class EditProfile extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="password"
                             name="password"
                             placeholder="Password"
@@ -79,7 +85,7 @@ class EditProfile extends Component {
                         />
                     </div>
                     <div className="input-div">
-                        <input type="submit" value="Save" />
+                        <input className="all-inputs" type="submit" value="Save" />
                     </div>
                     {showProfileIsUpdatedMessage && <div className="profile-updated">
                         {showProfileIsUpdatedMessage}

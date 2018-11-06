@@ -43,6 +43,7 @@ class Registration extends Component {
             <div className="registration-div">
                 <form className="registration-form" onSubmit={this.handleSubmit}>
                     <input
+                        className="all-inputs"
                         type="text"
                         name="firstname"
                         required
@@ -52,6 +53,7 @@ class Registration extends Component {
                     />
 
                     <input
+                        className="all-inputs"
                         type="text"
                         name="lastname"
                         required
@@ -61,6 +63,7 @@ class Registration extends Component {
                     />
 
                     <input
+                        className="all-inputs"
                         type="email"
                         name="email"
                         required
@@ -70,6 +73,7 @@ class Registration extends Component {
                     />
 
                     <input
+                        className="all-inputs"
                         type="password"
                         name="password"
                         pattern = "(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
@@ -80,7 +84,7 @@ class Registration extends Component {
                         onChange={this.handleChange}
                     />
 
-                    <input type="submit" value="Sign Up" />
+                    <input className="all-inputs" type="submit" value="Sign Up" />
 
                 </form>
                 {this.state.errorMessage && <div>{this.state.errorMessage}</div>}

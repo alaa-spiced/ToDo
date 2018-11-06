@@ -42,6 +42,7 @@ class Login extends Component {
                 <div className="login-div">
                     <form className="login-form" onSubmit={this.handleSubmit}>
                         <input
+                            className="all-inputs"
                             type="email"
                             name="email"
                             required
@@ -50,6 +51,7 @@ class Login extends Component {
                         />
 
                         <input
+                            className="all-inputs"
                             type="password"
                             name="password"
                             required
@@ -57,7 +59,7 @@ class Login extends Component {
                             onChange={this.handleChange}
                         />
 
-                        <input type="submit" value="Log In" />
+                        <input className="all-inputs" type="submit" value="Log In" />
                         {this.state.errorMessage && <div>{this.state.errorMessage}</div>}
                     </form>
                     <Link to="/">Click here to Register!</Link>

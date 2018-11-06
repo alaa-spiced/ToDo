@@ -24,6 +24,14 @@ class CreateProject extends Component {
             this.setState({
                 createProjectMessage : 'Please Fill In The Whole Fields'
             });
+            setTimeout(
+                function() {
+                    this.setState({
+                        createProjectMessage : ''
+                    });
+                }.bind(this),
+                2000
+            );
         }else {
             await axios.post('/create-project', this.state);
             this.setState({
@@ -48,6 +56,7 @@ class CreateProject extends Component {
                 <form className="registration-form" onSubmit={this.handleSubmit}>
                     <div className="input-div">
                         <input
+                            className="all-inputs"
                             type="text"
                             name="title"
                             placeholder="Project Title"
@@ -58,6 +67,7 @@ class CreateProject extends Component {
                     <div className="input-div">
 
                         <input
+                            className="all-inputs"
                             type="text"
                             name="description"
                             placeholder="Description"
@@ -65,10 +75,11 @@ class CreateProject extends Component {
                         />
                     </div>
                     <div className="input-div">
-                        <input type="submit" value="Create Project" />
+                        <input className="all-inputs" type="submit" value="Create Project" />
                     </div>
+                    {this.state.createProjectMessage}
                 </form>
-                {this.state.createProjectMessage}
+
 
             </div>
         );

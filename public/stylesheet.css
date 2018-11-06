@@ -43,7 +43,10 @@
   color: #202020;
   font-family: inherit;
   margin-bottom: 20px;
+}
 
+.edit-profile-button:hover {
+  background-color: tomato;
 }
 
 .profile-uploader {
@@ -112,9 +115,6 @@ select:hover{
   .inputfile + label * {
      pointer-events: none;
   }
-
-.edit-profile-button:hover {
-  background-color: tomato;
 }
 
 .profilepic-container {
@@ -147,6 +147,25 @@ select:hover{
   align-items: center;
 }
 
+.project-div{
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  width: 100%;
+  height: 10%;
+}
+
 .input-div{
   display: flex;
   flex-direction: column;
@@ -157,10 +176,9 @@ select:hover{
 
 ::placeholder{
   color: white;
-
 }
 
-input {
+.all-inputs {
     -webkit-appearance: none;
     outline: 0;
     height: 40px;
@@ -174,10 +192,14 @@ input {
     color: white;
     margin-bottom: 15px;
     }
-    input:hover{
+
+    .all-inputs:hover{
       background-color: tomato;
     }
 
+.check-box {
+
+}
 .profile-profilepic {
   border-radius: 10px;
   width: 300px;
@@ -278,11 +300,35 @@ width: 50%;
   height: 100%;
 }
 
+.project-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  width: 100%;
+  height: 100%;
+}
+
 .registration-form, .login-form{
   display: flex;
   flex-direction: column;
 width: 70%;
 height: 45%;
+}
+
+.project-form{
+  display: flex;
+  flex-direction: column;
+width: 70%;
+height: 50%;
+}
+
+.task-form {
+  display: flex;
+  flex-direction: row;
+width: 80%;
+height: 100%;
 }
 
 .user-projects-div{
@@ -293,6 +339,10 @@ height: 45%;
   width: 100%;
 height: 80vh;
 overflow-y: auto;
+}
+
+.project-tasks-text{
+  margin-top: 20px;
 }
 
 a{
@@ -352,8 +402,8 @@ z-index: 10;
   justify-content: flex-start;
   align-items: center;
   width: 50vw;
-
 }
+
 .main-content {
 min-height: 80vh;
   background-color: lightblue;
@@ -370,7 +420,6 @@ font-size: 20px;
 margin-right: 15px;
 color: white;
 background-color: lightblue;
-
 }
 
 .ads-div {
@@ -399,7 +448,7 @@ background-color: lightblue;
 
 .project-info {
   width: 100%;
-  height: 60%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   background-color: #202020;
